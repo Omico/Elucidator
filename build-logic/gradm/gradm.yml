@@ -1,0 +1,31 @@
+versions:
+  kotlinpoet: "1.13.2"
+  plugins:
+    age: "1.0.0-SNAPSHOT"
+    spotless: "6.18.0"
+
+repositories:
+  mavenCentral:
+  sonatypeSnapshots:
+    url: "https://s01.oss.sonatype.org/content/repositories/snapshots"
+  gradlePluginPortal:
+
+plugins:
+  gradlePluginPortal:
+    com.diffplug.spotless: ${versions.plugins.spotless}
+    com.gradle.enterprise: ${versions.plugins.gradle.enterprise}
+  sonatypeSnapshots:
+    me.omico.age.project: ${versions.plugins.age}
+    me.omico.age.spotless: ${versions.plugins.age}
+
+dependencies:
+  mavenCentral:
+    com.squareup:
+      kotlinpoet:
+        alias: libs.kotlinpoet
+        version: ${versions.kotlinpoet}
+  sonatypeSnapshots:
+    me.omico.age:
+      age-dsl:
+        alias: me.omico.age.dsl
+        version: ${versions.plugins.age}
