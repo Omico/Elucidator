@@ -13,6 +13,7 @@ kotlin {
 }
 
 dependencies {
+    implementation(kotlin("stdlib"))
     implementation(libs.kotlinpoet)
 }
 
