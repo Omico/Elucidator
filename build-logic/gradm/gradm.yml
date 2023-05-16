@@ -1,4 +1,5 @@
 versions:
+  kotlin: "1.8.21"
   kotlinpoet: "1.13.2"
   plugins:
     age: "1.0.0-SNAPSHOT"
@@ -14,6 +15,7 @@ plugins:
   gradlePluginPortal:
     com.diffplug.spotless: ${versions.plugins.spotless}
     com.gradle.enterprise: ${versions.plugins.gradle.enterprise}
+    org.jetbrains.kotlin.jvm: ${versions.kotlin}
   sonatypeSnapshots:
     me.omico.age.project: ${versions.plugins.age}
     me.omico.age.spotless: ${versions.plugins.age}

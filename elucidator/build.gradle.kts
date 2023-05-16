@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version embeddedKotlinVersion
+    kotlin("jvm")
     id("common.build-logic.maven-publish")
 }
 
