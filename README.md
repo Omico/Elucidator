@@ -1,18 +1,24 @@
 # Elucidator
 
+![Maven Central](https://img.shields.io/maven-central/v/me.omico.elucidator/elucidator)
+![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/me.omico.elucidator/elucidator?server=https%3A%2F%2Fs01.oss.sonatype.org)
+
 Elucidator aims to provide a better Kotlin DSL experience for kotlinpoet.
 
-Currently, it is still in the work-in-progress phase and not ready for production use. This means the API is not stable and may change in the future and may be missing some features.
+Currently, it is still in the work-in-progress phase and not ready for production use. This means the API is unstable, may change in the future, and may be missing some features.
 
 ## Usage
 
 ```kotlin
 repositories {
+    // For stable releases only
+    mavenCentral()
+    // Or for snapshots only
     maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots")
 }
 
 dependencies {
-    implementation("me.omico:elucidator:0.1.0-SNAPSHOT")
+    implementation("me.omico:elucidator:<version>")
 }
 ```
 
