@@ -16,20 +16,16 @@
 package me.omico.elucidator
 
 import com.squareup.kotlinpoet.ClassName
+import kotlin.reflect.KClass
 
-internal val generatedTypes: List<GeneratedType> = listOf(
-    GeneratedType("Annotation", "com.squareup.kotlinpoet.AnnotationSpec"),
-    GeneratedType("CodeBlock", "com.squareup.kotlinpoet.CodeBlock"),
-    GeneratedType("Function", "com.squareup.kotlinpoet.FunSpec"),
-    GeneratedType("KtFile", "com.squareup.kotlinpoet.FileSpec"),
-    GeneratedType("Property", "com.squareup.kotlinpoet.PropertySpec"),
-    GeneratedType("Type", "com.squareup.kotlinpoet.TypeSpec"),
-)
+internal val generatedTypes: List<GeneratedType> =
+    GeneratedType::class.sealedSubclasses
+        .mapNotNull(KClass<out GeneratedType>::objectInstance)
 
-internal data class GeneratedType(
-    val name: String,
-    val objectClass: String,
-    val builderClass: String = "$objectClass.Builder",
+internal sealed class GeneratedType(
+    name: String,
+    objectClass: String,
+    builderClass: String = "$objectClass.Builder",
 ) {
     val objectClassName: ClassName = ClassName.bestGuess(objectClass)
     val builderClassName: ClassName = ClassName.bestGuess(builderClass)
@@ -40,4 +36,11 @@ internal data class GeneratedType(
     val generatedScopeClassName: ClassName = ClassName(GENERATED_PACKAGE_NAME, generatedScopeName)
 
     val generatedBuilderName: String = "${name}Builder"
+
+    object Annotation : GeneratedType("Annotation", "com.squareup.kotlinpoet.AnnotationSpec")
+    object CodeBlock : GeneratedType("CodeBlock", "com.squareup.kotlinpoet.CodeBlock")
+    object Function : GeneratedType("Function", "com.squareup.kotlinpoet.FunSpec")
+    object KtFile : GeneratedType("KtFile", "com.squareup.kotlinpoet.FileSpec")
+    object Property : GeneratedType("Property", "com.squareup.kotlinpoet.PropertySpec")
+    object Type : GeneratedType("Type", "com.squareup.kotlinpoet.TypeSpec")
 }
