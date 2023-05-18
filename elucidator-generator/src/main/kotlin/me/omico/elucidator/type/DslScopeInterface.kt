@@ -19,17 +19,16 @@ import com.squareup.kotlinpoet.KModifier
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
 import me.omico.elucidator.addFunction
+import me.omico.elucidator.addInterface
 import me.omico.elucidator.addProperty
-import me.omico.elucidator.addType
-import me.omico.elucidator.interfaceType
 import me.omico.elucidator.modifier
 import me.omico.elucidator.returnType
 
 internal fun KtFileScope.addDslScopeInterface(type: GeneratedType): Unit =
-    interfaceType(type.generatedScopeName) {
-        addProperty("builder", type.builderClassName) {}
+    addInterface(type.generatedScopeName) {
+        addProperty("builder", type.builderClassName)
         addFunction("build") {
             modifier(KModifier.ABSTRACT)
             returnType(type.objectClassName)
         }
-    }.let(::addType)
+    }

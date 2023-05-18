@@ -51,19 +51,18 @@ private fun KtFileScope.addDslScopeBasicExtensionFunction(scope: String, functio
 private fun FunctionScope.addBasicExtensionFunctionParameters(function: BasicExtensionFunction) =
     function.parameters.forEach { (name, type) -> addBasicExtensionFunctionParameter(name, type) }
 
-private fun FunctionScope.addBasicExtensionFunctionParameter(name: String, type: Any) {
+private fun FunctionScope.addBasicExtensionFunctionParameter(name: String, type: Any): Unit =
     when (type) {
         is KClass<*> -> when {
-            isVariableArray(name) -> builder.addParameter(actualName(name), type, KModifier.VARARG)
-            else -> builder.addParameter(name, type)
+            isVariableArray(name) -> addParameter(actualName(name), type, KModifier.VARARG)
+            else -> addParameter(name, type)
         }
         is TypeName -> when {
             isVariableArray(name) -> addParameter(actualName(name), type, KModifier.VARARG)
             else -> addParameter(name, type)
         }
-        else -> return
+        else -> Unit
     }
-}
 
 private fun FunctionScope.addBasicExtensionFunctionStatement(function: BasicExtensionFunction) {
     val parameters = function.parameters.keys.joinToString(", ") { name ->

@@ -18,24 +18,24 @@ package me.omico.elucidator.type
 import com.squareup.kotlinpoet.KModifier
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
+import me.omico.elucidator.addClass
 import me.omico.elucidator.addFunction
+import me.omico.elucidator.addModifiers
 import me.omico.elucidator.addParameter
 import me.omico.elucidator.addProperty
-import me.omico.elucidator.addType
-import me.omico.elucidator.classType
-import me.omico.elucidator.constructorFunction
+import me.omico.elucidator.addSuperinterface
 import me.omico.elucidator.initializer
 import me.omico.elucidator.modifier
+import me.omico.elucidator.primaryConstructor
 import me.omico.elucidator.returnStatement
-import me.omico.elucidator.superinterface
 
 internal fun KtFileScope.addDslBuilderClass(type: GeneratedType): Unit =
-    classType(type.generatedBuilderName) {
-        superinterface(type.generatedScopeClassName)
-        builder.addModifiers(KModifier.INTERNAL)
-        constructorFunction {
+    addClass(type.generatedBuilderName) {
+        addModifiers(KModifier.INTERNAL)
+        addSuperinterface(type.generatedScopeClassName)
+        primaryConstructor {
             addParameter("builder", type.builderClassName)
-        }.let(builder::primaryConstructor)
+        }
         addProperty("builder", type.builderClassName) {
             modifier(KModifier.OVERRIDE)
             initializer("builder")
@@ -44,4 +44,4 @@ internal fun KtFileScope.addDslBuilderClass(type: GeneratedType): Unit =
             modifier(KModifier.OVERRIDE)
             returnStatement("builder.build()", type = type.objectClassName)
         }
-    }.let(::addType)
+    }
