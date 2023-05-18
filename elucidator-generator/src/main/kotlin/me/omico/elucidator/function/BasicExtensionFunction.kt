@@ -17,7 +17,6 @@ package me.omico.elucidator.function
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
@@ -26,57 +25,54 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
+import me.omico.elucidator.FunctionScope
 import me.omico.elucidator.GENERATED_PACKAGE_NAME
 import me.omico.elucidator.GeneratedType
+import me.omico.elucidator.KtFileScope
+import me.omico.elucidator.addFunction
+import me.omico.elucidator.addStatement
 import kotlin.reflect.KClass
 
-internal fun FileSpec.Builder.addDslScopeBasicExtensionFunctions(type: GeneratedType): FileSpec.Builder =
-    apply {
-        basicExtensionFunctions[type.generatedScopeName]?.forEach { function ->
-            addDslScopeBasicExtensionFunction(type.generatedScopeName, function)
-        }
+internal fun KtFileScope.addDslScopeBasicExtensionFunctions(type: GeneratedType) {
+    basicExtensionFunctions[type.generatedScopeName]?.forEach { function ->
+        addDslScopeBasicExtensionFunction(type.generatedScopeName, function)
+    }
+}
+
+private fun KtFileScope.addDslScopeBasicExtensionFunction(scope: String, function: BasicExtensionFunction): Unit =
+    addFunction(function.name) {
+        builder.receiver(ClassName(GENERATED_PACKAGE_NAME, scope))
+        addParameters(function)
+        addStatement(function)
     }
 
-private fun FileSpec.Builder.addDslScopeBasicExtensionFunction(
-    scope: String,
-    function: BasicExtensionFunction,
-): FileSpec.Builder =
-    FunSpec.builder(function.name)
-        .receiver(ClassName(GENERATED_PACKAGE_NAME, scope))
-        .addParameters(function)
-        .addStatement(function)
-        .build()
-        .let(::addFunction)
+private fun FunctionScope.addParameters(function: BasicExtensionFunction) {
+    function.parameters.forEach { (name, type) -> addParameter(name, type) }
+}
 
-private fun FunSpec.Builder.addParameters(function: BasicExtensionFunction): FunSpec.Builder =
-    apply { function.parameters.forEach { (name, type) -> addParameter(name, type) } }
-
-private fun FunSpec.Builder.addParameter(name: String, type: Any): FunSpec.Builder =
-    apply {
-        val builder = when (type) {
-            is KClass<*> -> when {
-                isVariableArray(name) -> ParameterSpec.builder(actualName(name), type, KModifier.VARARG)
-                else -> ParameterSpec.builder(name, type)
-            }
-            is TypeName -> when {
-                isVariableArray(name) -> ParameterSpec.builder(actualName(name), type, KModifier.VARARG)
-                else -> ParameterSpec.builder(name, type)
-            }
-            else -> return@apply
+private fun FunctionScope.addParameter(name: String, type: Any) {
+    when (type) {
+        is KClass<*> -> when {
+            isVariableArray(name) -> ParameterSpec.builder(actualName(name), type, KModifier.VARARG)
+            else -> ParameterSpec.builder(name, type)
         }
-        builder.build().let(::addParameter)
-    }
-
-private fun FunSpec.Builder.addStatement(function: BasicExtensionFunction): FunSpec.Builder =
-    apply {
-        val parameters = function.parameters.keys.joinToString(", ") { name ->
-            when {
-                isVariableArray(name) -> "${actualName(name)} = ${actualName(name)}"
-                else -> "$name = $name"
-            }
+        is TypeName -> when {
+            isVariableArray(name) -> ParameterSpec.builder(actualName(name), type, KModifier.VARARG)
+            else -> ParameterSpec.builder(name, type)
         }
-        addStatement("builder.${function.name}($parameters)")
+        else -> return
+    }.build().let(builder::addParameter)
+}
+
+private fun FunctionScope.addStatement(function: BasicExtensionFunction) {
+    val parameters = function.parameters.keys.joinToString(", ") { name ->
+        when {
+            isVariableArray(name) -> "${actualName(name)} = ${actualName(name)}"
+            else -> "$name = $name"
+        }
     }
+    addStatement("builder.${function.name}($parameters)")
+}
 
 private data class BasicExtensionFunction(
     val name: String,

@@ -15,21 +15,23 @@
  */
 package me.omico.elucidator.type
 
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeSpec
 import me.omico.elucidator.GeneratedType
+import me.omico.elucidator.KtFileScope
+import me.omico.elucidator.addFunction
+import me.omico.elucidator.addType
+import me.omico.elucidator.applyDslBuilder
+import me.omico.elucidator.modifier
 
-internal fun FileSpec.Builder.addDslScopeInterface(type: GeneratedType): FileSpec.Builder =
+internal fun KtFileScope.addDslScopeInterface(type: GeneratedType): Unit =
     TypeSpec.interfaceBuilder(type.generatedScopeName)
         .addProperty("builder", type.builderClassName)
-        .apply {
-            FunSpec.builder("build")
-                .addModifiers(KModifier.ABSTRACT)
-                .returns(type.objectClassName)
-                .build()
-                .let(::addFunction)
+        .applyDslBuilder {
+            addFunction("build") {
+                modifier(KModifier.ABSTRACT)
+                builder.returns(type.objectClassName)
+            }
         }
         .build()
         .let(::addType)

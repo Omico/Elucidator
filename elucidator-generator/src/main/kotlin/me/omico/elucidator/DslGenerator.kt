@@ -17,7 +17,6 @@
 
 package me.omico.elucidator
 
-import com.squareup.kotlinpoet.FileSpec
 import me.omico.elucidator.function.addDslScopeExtensionFunctions
 import me.omico.elucidator.function.addInteroperabilityFunction
 import me.omico.elucidator.type.addDslBuilderClass
@@ -27,14 +26,14 @@ import kotlin.io.path.Path
 fun main(arguments: Array<String>) {
     val outputDirectory = Path(arguments.first())
     generatedTypes.forEach { type ->
-        FileSpec.builder(GENERATED_PACKAGE_NAME, type.generatedFileName)
-            .addFileComment(GENERATED_HEADER_COMMENT)
-            .addDslScopeInterface(type)
-            .addDslBuilderClass(type)
-            .addInteroperabilityFunction(type)
-            .addDslScopeExtensionFunctions(type)
-            .build()
-            .writeTo(outputDirectory)
+        ktFile(GENERATED_PACKAGE_NAME, type.generatedFileName) {
+            addFileComment(GENERATED_HEADER_COMMENT)
+            addDslScopeInterface(type)
+            addDslBuilderClass(type)
+            addDslScopeExtensionFunctions(type)
+            addInteroperabilityFunction(type)
+            writeTo(outputDirectory)
+        }
     }
 }
 

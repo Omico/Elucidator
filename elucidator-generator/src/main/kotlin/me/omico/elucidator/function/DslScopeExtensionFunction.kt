@@ -15,13 +15,12 @@
  */
 package me.omico.elucidator.function
 
-import com.squareup.kotlinpoet.FileSpec
 import me.omico.elucidator.GeneratedType
+import me.omico.elucidator.KtFileScope
 
-internal fun FileSpec.Builder.addDslScopeExtensionFunctions(type: GeneratedType): FileSpec.Builder =
-    apply {
-        addDslScopeBasicExtensionFunctions(type)
-    }
+internal fun KtFileScope.addDslScopeExtensionFunctions(type: GeneratedType) {
+    addDslScopeBasicExtensionFunctions(type)
+}
 
 internal val isVariableArray: (String) -> Boolean = { it.startsWith("vararg ") }
 internal val actualName: (String) -> String = { it.removePrefix("vararg ") }
