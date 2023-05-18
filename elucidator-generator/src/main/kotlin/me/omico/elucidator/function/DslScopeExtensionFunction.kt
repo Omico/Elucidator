@@ -20,6 +20,7 @@ import me.omico.elucidator.KtFileScope
 
 internal fun KtFileScope.addDslScopeExtensionFunctions(type: GeneratedType) {
     addDslScopeBasicExtensionFunctions(type)
+    addTypeExtensionFunctions(type)
 }
 
 internal val isVariableArray: (String) -> Boolean = { it.startsWith("vararg ") }

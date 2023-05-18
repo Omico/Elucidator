@@ -18,13 +18,6 @@ package me.omico.elucidator
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.TypeSpec
-
-public fun objectType(name: String, block: TypeScope.() -> Unit): TypeSpec =
-    TypeSpec.objectBuilder(name = name).applyDslBuilder(block).build()
-
-public fun classType(name: String, block: TypeScope.() -> Unit): TypeSpec =
-    TypeSpec.classBuilder(name = name).applyDslBuilder(block).build()
 
 public inline fun <reified T> TypeScope.superclass() {
     builder.superclass(superclass = T::class)
