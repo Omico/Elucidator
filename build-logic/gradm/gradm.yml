@@ -1,5 +1,5 @@
 versions:
-  elucidator: "0.3.0"
+  elucidator: "0.4.0"
   kotlin: "1.8.21"
   kotlinpoet: "1.13.2"
   plugins:
