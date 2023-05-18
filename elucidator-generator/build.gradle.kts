@@ -14,6 +14,7 @@ kotlin {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation(libs.elucidator)
     implementation(libs.kotlinpoet)
 }
 
