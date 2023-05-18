@@ -16,6 +16,7 @@
 package me.omico.elucidator
 
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
 
@@ -23,7 +24,14 @@ public inline fun <reified T> TypeScope.superclass() {
     builder.superclass(superclass = T::class)
 }
 
-public fun TypeScope.superinterface(type: TypeName, delegate: CodeBlock = EmptyCodeBlock) {
+public fun TypeScope.primaryConstructor(primaryConstructor: FunSpec?) {
+    builder.primaryConstructor(primaryConstructor = primaryConstructor)
+}
+
+public fun TypeScope.primaryConstructor(block: FunctionScope.() -> Unit): Unit =
+    constructorFunction(block = block).let(::primaryConstructor)
+
+public fun TypeScope.addSuperinterface(type: TypeName, delegate: CodeBlock = EmptyCodeBlock) {
     builder.addSuperinterface(superinterface = type, delegate = delegate)
 }
 
@@ -33,7 +41,7 @@ public fun TypeScope.addFunction(name: String, block: FunctionScope.() -> Unit):
 public inline fun <reified T> TypeScope.addProperty(
     name: String,
     vararg modifiers: KModifier,
-    noinline block: PropertyScope.() -> Unit,
+    noinline block: PropertyScope.() -> Unit = {},
 ): Unit =
     property<T>(name = name, modifiers = modifiers, block = block).let(::addProperty)
 
@@ -41,7 +49,7 @@ public fun TypeScope.addProperty(
     name: String,
     type: TypeName,
     vararg modifiers: KModifier,
-    block: PropertyScope.() -> Unit,
+    block: PropertyScope.() -> Unit = {},
 ): Unit =
     property(name = name, type = type, modifiers = modifiers, block = block).let(::addProperty)
 

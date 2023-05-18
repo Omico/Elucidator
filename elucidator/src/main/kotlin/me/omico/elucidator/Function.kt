@@ -19,6 +19,8 @@ import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.asTypeName
+import kotlin.reflect.KClass
 
 public fun function(name: String, block: FunctionScope.() -> Unit): FunSpec =
     FunSpec.builder(name = name).applyDslBuilder(block).build()
@@ -57,6 +59,14 @@ public fun FunctionScope.receiver(receiverType: TypeName, kdoc: CodeBlock = Empt
     builder.receiver(receiverType = receiverType, kdoc = kdoc)
 }
 
+public fun FunctionScope.addParameter(name: String, type: KClass<*>, vararg modifiers: KModifier) {
+    builder.addParameter(name = name, type = type, modifiers = modifiers)
+}
+
+public fun FunctionScope.addParameter(name: String, type: KClass<*>, modifiers: Iterable<KModifier>) {
+    builder.addParameter(name = name, type = type, modifiers = modifiers)
+}
+
 public inline fun <reified T> FunctionScope.addParameter(name: String, vararg modifiers: KModifier) {
     builder.addParameter(name = name, type = T::class, modifiers = modifiers)
 }
@@ -84,15 +94,6 @@ public fun FunctionScope.returnType(type: TypeName, kdoc: CodeBlock = EmptyCodeB
 public fun FunctionScope.returnStatement(format: String, vararg args: Any): Unit =
     addStatement(format = "return $format", args = args)
 
-public inline fun <reified T> FunctionScope.returnStatement(
-    format: String,
-    vararg args: Any,
-    kdoc: CodeBlock = EmptyCodeBlock,
-) {
-    returnStatement(format = format, args = args)
-    returnType<T>(kdoc = kdoc)
-}
-
 public fun FunctionScope.returnStatement(
     format: String,
     vararg args: Any,
@@ -102,3 +103,10 @@ public fun FunctionScope.returnStatement(
     returnStatement(format = format, args = args)
     returnType(type = type, kdoc = kdoc)
 }
+
+public inline fun <reified T> FunctionScope.returnStatement(
+    format: String,
+    vararg args: Any,
+    kdoc: CodeBlock = EmptyCodeBlock,
+): Unit =
+    returnStatement(format = format, args = args, type = T::class.asTypeName(), kdoc = kdoc)

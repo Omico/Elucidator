@@ -24,14 +24,14 @@ public fun property(
     name: String,
     type: TypeName,
     vararg modifiers: KModifier,
-    block: PropertyScope.() -> Unit,
+    block: PropertyScope.() -> Unit = {},
 ): PropertySpec =
     PropertySpec.builder(name = name, type = type, modifiers = modifiers).applyDslBuilder(block).build()
 
 public inline fun <reified T> property(
     name: String,
     vararg modifiers: KModifier,
-    noinline block: PropertyScope.() -> Unit,
+    noinline block: PropertyScope.() -> Unit = {},
 ): PropertySpec =
     property(name = name, type = T::class.asTypeName(), modifiers = modifiers, block = block)
 
