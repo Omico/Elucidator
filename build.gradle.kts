@@ -3,5 +3,5 @@ plugins {
 }
 
 tasks.prepareKotlinBuildScriptModel {
-    dependsOn(":elucidator-generator:run")
+    dependsOn(":elucidator:clean", ":elucidator-generator:run")
 }

@@ -24,7 +24,7 @@ dependencies {
 tasks {
     listOf(compileKotlin, sourcesJar).forEach { task ->
         task {
-            dependsOn(":elucidator-generator:run")
+            dependsOn(":elucidator:clean", ":elucidator-generator:run")
         }
     }
     listOf(publish, publishToMavenLocal).forEach { task ->

@@ -19,13 +19,6 @@ dependencies {
     implementation(libs.kotlinpoet)
 }
 
-val cleanup by tasks.registering {
-    doLast {
-        delete(projectDir.resolveSibling("elucidator/build/generated/kotlin"))
-    }
-}
-
 tasks.run<JavaExec> {
-    dependsOn(cleanup)
     args = listOf(projectDir.resolveSibling("elucidator/build/generated/kotlin").absolutePath)
 }
