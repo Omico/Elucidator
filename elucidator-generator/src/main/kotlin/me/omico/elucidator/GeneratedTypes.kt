@@ -41,6 +41,7 @@ internal sealed class GeneratedType(
     object CodeBlock : GeneratedType("CodeBlock", "com.squareup.kotlinpoet.CodeBlock")
     object Function : GeneratedType("Function", "com.squareup.kotlinpoet.FunSpec")
     object KtFile : GeneratedType("KtFile", "com.squareup.kotlinpoet.FileSpec")
+    object Parameter : GeneratedType("Parameter", "com.squareup.kotlinpoet.ParameterSpec")
     object Property : GeneratedType("Property", "com.squareup.kotlinpoet.PropertySpec")
     object Type : GeneratedType("Type", "com.squareup.kotlinpoet.TypeSpec")
 }

@@ -105,11 +105,14 @@ private val BasicExtensionFunctions_AnnotationScope: List<BasicExtensionFunction
 
 private val BasicExtensionFunctions_FunctionScope: List<BasicExtensionFunction> by lazy {
     buildList {
-        addAll(BasicExtensionFunctions_addModifiers)
-        addAll(BasicExtensionFunctions_controlFlow)
         add(BasicExtensionFunction_addAnnotation)
         add(BasicExtensionFunction_addComment)
         add(BasicExtensionFunction_addStatement)
+        addAll(BasicExtensionFunctions_addModifiers)
+        addAll(BasicExtensionFunctions_controlFlow)
+        listOf(
+            BasicExtensionFunction("addParameter", "parameterSpec" to ParameterSpec::class),
+        ).let(::addAll)
     }
 }
 
