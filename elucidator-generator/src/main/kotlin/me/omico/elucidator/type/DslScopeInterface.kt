@@ -16,22 +16,20 @@
 package me.omico.elucidator.type
 
 import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.TypeSpec
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
 import me.omico.elucidator.addFunction
+import me.omico.elucidator.addProperty
 import me.omico.elucidator.addType
-import me.omico.elucidator.applyDslBuilder
+import me.omico.elucidator.interfaceType
 import me.omico.elucidator.modifier
+import me.omico.elucidator.returnType
 
 internal fun KtFileScope.addDslScopeInterface(type: GeneratedType): Unit =
-    TypeSpec.interfaceBuilder(type.generatedScopeName)
-        .addProperty("builder", type.builderClassName)
-        .applyDslBuilder {
-            addFunction("build") {
-                modifier(KModifier.ABSTRACT)
-                builder.returns(type.objectClassName)
-            }
+    interfaceType(type.generatedScopeName) {
+        addProperty("builder", type.builderClassName) {}
+        addFunction("build") {
+            modifier(KModifier.ABSTRACT)
+            returnType(type.objectClassName)
         }
-        .build()
-        .let(::addType)
+    }.let(::addType)

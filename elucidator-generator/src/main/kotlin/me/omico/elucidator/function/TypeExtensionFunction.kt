@@ -15,13 +15,13 @@
  */
 package me.omico.elucidator.function
 
-import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.UNIT
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
 import me.omico.elucidator.addFunction
 import me.omico.elucidator.addParameter
+import me.omico.elucidator.lambdaTypeName
 import me.omico.elucidator.returnStatement
 
 internal fun KtFileScope.addTypeExtensionFunctions(type: GeneratedType) {
@@ -29,9 +29,9 @@ internal fun KtFileScope.addTypeExtensionFunctions(type: GeneratedType) {
     typeNames.forEach { typeName ->
         addFunction("${typeName}Type") {
             addParameter<String>("name")
-            builder.addParameter(
+            addParameter(
                 name = "block",
-                type = LambdaTypeName.get(
+                type = lambdaTypeName(
                     receiver = GeneratedType.Type.generatedScopeClassName,
                     returnType = UNIT,
                 ),

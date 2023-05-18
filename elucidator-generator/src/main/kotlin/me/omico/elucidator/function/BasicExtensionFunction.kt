@@ -30,7 +30,9 @@ import me.omico.elucidator.GENERATED_PACKAGE_NAME
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
 import me.omico.elucidator.addFunction
+import me.omico.elucidator.addParameter
 import me.omico.elucidator.addStatement
+import me.omico.elucidator.receiver
 import kotlin.reflect.KClass
 
 internal fun KtFileScope.addDslScopeBasicExtensionFunctions(type: GeneratedType) {
@@ -41,30 +43,29 @@ internal fun KtFileScope.addDslScopeBasicExtensionFunctions(type: GeneratedType)
 
 private fun KtFileScope.addDslScopeBasicExtensionFunction(scope: String, function: BasicExtensionFunction): Unit =
     addFunction(function.name) {
-        builder.receiver(ClassName(GENERATED_PACKAGE_NAME, scope))
-        addParameters(function)
-        addStatement(function)
+        receiver(ClassName(GENERATED_PACKAGE_NAME, scope))
+        addBasicExtensionFunctionParameters(function)
+        addBasicExtensionFunctionStatement(function)
     }
 
-private fun FunctionScope.addParameters(function: BasicExtensionFunction) {
-    function.parameters.forEach { (name, type) -> addParameter(name, type) }
-}
+private fun FunctionScope.addBasicExtensionFunctionParameters(function: BasicExtensionFunction) =
+    function.parameters.forEach { (name, type) -> addBasicExtensionFunctionParameter(name, type) }
 
-private fun FunctionScope.addParameter(name: String, type: Any) {
+private fun FunctionScope.addBasicExtensionFunctionParameter(name: String, type: Any) {
     when (type) {
         is KClass<*> -> when {
-            isVariableArray(name) -> ParameterSpec.builder(actualName(name), type, KModifier.VARARG)
-            else -> ParameterSpec.builder(name, type)
+            isVariableArray(name) -> builder.addParameter(actualName(name), type, KModifier.VARARG)
+            else -> builder.addParameter(name, type)
         }
         is TypeName -> when {
-            isVariableArray(name) -> ParameterSpec.builder(actualName(name), type, KModifier.VARARG)
-            else -> ParameterSpec.builder(name, type)
+            isVariableArray(name) -> addParameter(actualName(name), type, KModifier.VARARG)
+            else -> addParameter(name, type)
         }
         else -> return
-    }.build().let(builder::addParameter)
+    }
 }
 
-private fun FunctionScope.addStatement(function: BasicExtensionFunction) {
+private fun FunctionScope.addBasicExtensionFunctionStatement(function: BasicExtensionFunction) {
     val parameters = function.parameters.keys.joinToString(", ") { name ->
         when {
             isVariableArray(name) -> "${actualName(name)} = ${actualName(name)}"
@@ -149,6 +150,7 @@ private val BasicExtensionFunctions_TypeScope: List<BasicExtensionFunction> by l
         add(BasicExtensionFunction_addProperty)
         add(BasicExtensionFunction_addSuperclassConstructorParameter)
         add(BasicExtensionFunction_addType)
+        addAll(BasicExtensionFunctions_addModifiers)
     }
 }
 

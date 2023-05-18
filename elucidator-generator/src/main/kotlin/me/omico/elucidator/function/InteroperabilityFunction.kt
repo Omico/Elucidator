@@ -15,27 +15,27 @@
  */
 package me.omico.elucidator.function
 
-import com.squareup.kotlinpoet.LambdaTypeName
-import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.UNIT
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
 import me.omico.elucidator.addFunction
+import me.omico.elucidator.addParameter
+import me.omico.elucidator.lambdaTypeName
+import me.omico.elucidator.receiver
 import me.omico.elucidator.returnStatement
 
 internal fun KtFileScope.addInteroperabilityFunction(type: GeneratedType): Unit =
     addFunction("applyDslBuilder") {
-        builder.receiver(type.builderClassName)
-        ParameterSpec
-            .builder(
-                name = "builder",
-                type = LambdaTypeName.get(
-                    receiver = type.generatedScopeClassName,
-                    returnType = UNIT,
-                ),
-            )
-            .build()
-            .let(builder::addParameter)
-        returnStatement("${type.generatedBuilderName}(this).apply(builder).builder")
-        builder.returns(type.builderClassName)
+        receiver(type.builderClassName)
+        addParameter(
+            name = "builder",
+            type = lambdaTypeName(
+                receiver = type.generatedScopeClassName,
+                returnType = UNIT,
+            ),
+        )
+        returnStatement(
+            format = "${type.generatedBuilderName}(this).apply(builder).builder",
+            type = type.builderClassName,
+        )
     }
