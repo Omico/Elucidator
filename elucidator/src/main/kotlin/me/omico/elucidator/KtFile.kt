@@ -29,12 +29,6 @@ public fun ktFile(
 public fun KtFileScope.addFunction(name: String, block: FunctionScope.() -> Unit): Unit =
     function(name = name, block = block).let(::addFunction)
 
-public fun KtFileScope.addObjectType(name: String, block: TypeScope.() -> Unit): Unit =
-    objectType(name = name, block = block).let(::addType)
-
-public fun KtFileScope.addClassType(name: String, block: TypeScope.() -> Unit): Unit =
-    classType(name = name, block = block).let(::addType)
-
 public inline fun <reified T : Annotation> KtFileScope.addAnnotation(noinline block: AnnotationScope.() -> Unit): Unit =
     annotation(type = T::class, block = block).let(::addAnnotation)
 
