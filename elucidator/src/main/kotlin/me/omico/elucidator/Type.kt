@@ -52,6 +52,3 @@ public fun TypeScope.addProperty(
     block: PropertyScope.() -> Unit = {},
 ): Unit =
     property(name = name, type = type, modifiers = modifiers, block = block).let(::addProperty)
-
-public fun TypeScope.addObjectType(name: String, block: TypeScope.() -> Unit): Unit =
-    objectType(name = name, block = block).let(::addType)
