@@ -18,6 +18,7 @@ package me.omico.elucidator
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.TypeName
 
 public fun function(name: String, block: FunctionScope.() -> Unit): FunSpec =
     FunSpec.builder(name = name).applyDslBuilder(block).build()
@@ -48,6 +49,14 @@ public fun FunctionScope.modifiers(modifiers: Iterable<KModifier>) {
 public inline fun <reified T : Annotation> FunctionScope.addAnnotation(noinline block: AnnotationScope.() -> Unit): Unit =
     annotation<T>(block = block).let(::addAnnotation)
 
+public inline fun <reified T> FunctionScope.receiver(kdoc: CodeBlock = EmptyCodeBlock) {
+    builder.receiver(receiverType = T::class, kdoc = kdoc)
+}
+
+public fun FunctionScope.receiver(receiverType: TypeName, kdoc: CodeBlock = EmptyCodeBlock) {
+    builder.receiver(receiverType = receiverType, kdoc = kdoc)
+}
+
 public inline fun <reified T> FunctionScope.addParameter(name: String, vararg modifiers: KModifier) {
     builder.addParameter(name = name, type = T::class, modifiers = modifiers)
 }
@@ -56,8 +65,20 @@ public inline fun <reified T> FunctionScope.addParameter(name: String, modifiers
     builder.addParameter(name = name, type = T::class, modifiers = modifiers)
 }
 
+public fun FunctionScope.addParameter(name: String, type: TypeName, vararg modifiers: KModifier) {
+    builder.addParameter(name = name, type = type, modifiers = modifiers)
+}
+
+public fun FunctionScope.addParameter(name: String, type: TypeName, modifiers: Iterable<KModifier>) {
+    builder.addParameter(name = name, type = type, modifiers = modifiers)
+}
+
 public inline fun <reified T> FunctionScope.returnType(kdoc: CodeBlock = EmptyCodeBlock) {
     builder.returns(returnType = T::class, kdoc = kdoc)
+}
+
+public fun FunctionScope.returnType(type: TypeName, kdoc: CodeBlock = EmptyCodeBlock) {
+    builder.returns(returnType = type, kdoc = kdoc)
 }
 
 public fun FunctionScope.returnStatement(format: String, vararg args: Any): Unit =
@@ -70,4 +91,14 @@ public inline fun <reified T> FunctionScope.returnStatement(
 ) {
     returnStatement(format = format, args = args)
     returnType<T>(kdoc = kdoc)
+}
+
+public fun FunctionScope.returnStatement(
+    format: String,
+    vararg args: Any,
+    type: TypeName,
+    kdoc: CodeBlock = EmptyCodeBlock,
+) {
+    returnStatement(format = format, args = args)
+    returnType(type = type, kdoc = kdoc)
 }
