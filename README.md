@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation("me.omico:elucidator:<version>")
+    implementation("me.omico.elucidator:elucidator:<version>")
 }
 ```
 
