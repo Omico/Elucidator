@@ -3,7 +3,7 @@
 ![Maven Central](https://img.shields.io/maven-central/v/me.omico.elucidator/elucidator)
 ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/me.omico.elucidator/elucidator?server=https%3A%2F%2Fs01.oss.sonatype.org)
 
-Elucidator aims to provide a better Kotlin DSL experience for kotlinpoet.
+Elucidator aims to provide a better Kotlin DSL experience for [kotlinpoet](https://github.com/square/kotlinpoet).
 
 Currently, it is still in the work-in-progress phase and not ready for production use. This means the API is unstable, may change in the future, and may be missing some features.
 
@@ -25,7 +25,7 @@ dependencies {
 ## License
 
 ```txt
-Copyright 2022 Omico
+Copyright 2023 Omico
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
