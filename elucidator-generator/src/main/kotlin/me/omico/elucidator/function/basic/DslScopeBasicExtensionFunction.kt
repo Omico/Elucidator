@@ -67,6 +67,7 @@ private val dslScopeBasicExtensionFunctions: BasicExtensionFunctions by lazy {
         "AnnotationScope" to BasicExtensionFunctions_AnnotationScope,
         "FunctionScope" to BasicExtensionFunctions_FunctionScope,
         "KtFileScope" to BasicExtensionFunctions_KtFileScope,
+        "ParameterScope" to BasicExtensionFunctions_ParameterScope,
         "PropertyScope" to BasicExtensionFunctions_PropertyScope,
         "TypeScope" to BasicExtensionFunctions_TypeScope,
     )

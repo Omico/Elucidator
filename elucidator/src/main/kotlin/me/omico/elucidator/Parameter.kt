@@ -18,8 +18,12 @@ package me.omico.elucidator
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterSpec
+import com.squareup.kotlinpoet.ParameterizedTypeName
+import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.asClassName
 import com.squareup.kotlinpoet.asTypeName
+import kotlin.reflect.KClass
 
 public fun parameter(
     name: String,
@@ -58,3 +62,9 @@ public fun ParameterScope.defaultValue(format: String, vararg args: Any?) {
 public fun ParameterScope.defaultValue(codeBlock: CodeBlock?) {
     builder.defaultValue(codeBlock = codeBlock)
 }
+
+public fun KClass<*>.parameterizedBy(typeArguments: Iterable<TypeName>): ParameterizedTypeName =
+    asClassName().parameterizedBy(typeArguments = typeArguments.toList())
+
+public fun KClass<*>.parameterizedBy(vararg typeArguments: TypeName): ParameterizedTypeName =
+    asClassName().parameterizedBy(typeArguments = typeArguments.toList())

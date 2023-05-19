@@ -55,6 +55,7 @@ internal fun KtFileScope.addModifierExtensionFunction(type: GeneratedType) {
 
 private val allowedTypes = listOf(
     GeneratedType.Function,
+    GeneratedType.Parameter,
     GeneratedType.Property,
     GeneratedType.Type,
 )
