@@ -35,13 +35,35 @@ public fun FunctionScope.receiver(receiverType: TypeName, kdoc: CodeBlock = Empt
     builder.receiver(receiverType = receiverType, kdoc = kdoc)
 }
 
-public inline fun <reified T> FunctionScope.addParameter(name: String, vararg modifiers: KModifier) {
-    builder.addParameter(name = name, type = T::class, modifiers = modifiers)
-}
+public fun FunctionScope.addParameter(
+    name: String,
+    type: TypeName,
+    vararg modifiers: KModifier,
+    block: ParameterScope.() -> Unit = {},
+): Unit =
+    parameter(name = name, type = type, modifiers = modifiers, block = block).let(::addParameter)
 
-public inline fun <reified T> FunctionScope.addParameter(name: String, modifiers: Iterable<KModifier>) {
-    builder.addParameter(name = name, type = T::class, modifiers = modifiers)
-}
+public fun FunctionScope.addParameter(
+    name: String,
+    type: TypeName,
+    modifiers: Iterable<KModifier>,
+    block: ParameterScope.() -> Unit = {},
+): Unit =
+    parameter(name = name, type = type, modifiers = modifiers, block = block).let(::addParameter)
+
+public inline fun <reified T> FunctionScope.addParameter(
+    name: String,
+    vararg modifiers: KModifier,
+    noinline block: ParameterScope.() -> Unit = {},
+): Unit =
+    parameter<T>(name = name, modifiers = modifiers, block = block).let(::addParameter)
+
+public inline fun <reified T> FunctionScope.addParameter(
+    name: String,
+    modifiers: Iterable<KModifier>,
+    noinline block: ParameterScope.() -> Unit = {},
+): Unit =
+    parameter<T>(name = name, modifiers = modifiers, block = block).let(::addParameter)
 
 public inline fun <reified T> FunctionScope.returnType(kdoc: CodeBlock = EmptyCodeBlock) {
     builder.returns(returnType = T::class, kdoc = kdoc)
