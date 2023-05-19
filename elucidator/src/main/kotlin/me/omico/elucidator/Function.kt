@@ -24,15 +24,6 @@ import com.squareup.kotlinpoet.asTypeName
 public fun function(name: String, block: FunctionScope.() -> Unit): FunSpec =
     FunSpec.builder(name = name).applyDslBuilder(block).build()
 
-public fun constructorFunction(block: FunctionScope.() -> Unit): FunSpec =
-    FunSpec.constructorBuilder().applyDslBuilder(block).build()
-
-public fun getterFunction(block: FunctionScope.() -> Unit): FunSpec =
-    FunSpec.getterBuilder().applyDslBuilder(block).build()
-
-public fun setterFunction(block: FunctionScope.() -> Unit): FunSpec =
-    FunSpec.setterBuilder().applyDslBuilder(block).build()
-
 public inline fun <reified T : Annotation> FunctionScope.addAnnotation(noinline block: AnnotationScope.() -> Unit): Unit =
     annotation<T>(block = block).let(::addAnnotation)
 
