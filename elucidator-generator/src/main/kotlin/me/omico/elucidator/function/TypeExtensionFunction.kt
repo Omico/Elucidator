@@ -49,7 +49,11 @@ private fun KtFileScope.addTypeDslBuilderExtensionFunctions(type: GeneratedType)
 }
 
 private fun KtFileScope.addAddTypeExtensionFunctions(type: GeneratedType) {
-    if (type !is GeneratedType.KtFile) return
+    val allowedTypes = listOf(
+        GeneratedType.KtFile,
+        GeneratedType.Type,
+    )
+    if (type !in allowedTypes) return
     typeNames.forEach { typeName ->
         addFunction("add${typeName.capitalize()}") {
             receiver(type.generatedScopeClassName)
