@@ -35,15 +35,6 @@ public inline fun <reified T> property(
 ): PropertySpec =
     property(name = name, type = T::class.asTypeName(), modifiers = modifiers, block = block)
 
-public fun PropertyScope.clearModifiers(): Unit = builder.modifiers.clear()
-
-public fun PropertyScope.modifier(modifier: KModifier): Unit = modifiers(modifier)
-
-public fun PropertyScope.modifiers(vararg modifiers: KModifier) {
-    clearModifiers()
-    addModifiers(modifiers = modifiers)
-}
-
 public inline fun <reified T> PropertyScope.receiver() {
     builder.receiver(receiverType = T::class)
 }

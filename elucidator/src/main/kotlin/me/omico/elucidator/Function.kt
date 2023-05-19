@@ -33,20 +33,6 @@ public fun getterFunction(block: FunctionScope.() -> Unit): FunSpec =
 public fun setterFunction(block: FunctionScope.() -> Unit): FunSpec =
     FunSpec.setterBuilder().applyDslBuilder(block).build()
 
-public fun FunctionScope.clearModifiers(): Unit = builder.modifiers.clear()
-
-public fun FunctionScope.modifier(modifier: KModifier): Unit = modifiers(modifier)
-
-public fun FunctionScope.modifiers(vararg modifiers: KModifier) {
-    clearModifiers()
-    addModifiers(modifiers = modifiers)
-}
-
-public fun FunctionScope.modifiers(modifiers: Iterable<KModifier>) {
-    clearModifiers()
-    addModifiers(modifiers = modifiers)
-}
-
 public inline fun <reified T : Annotation> FunctionScope.addAnnotation(noinline block: AnnotationScope.() -> Unit): Unit =
     annotation<T>(block = block).let(::addAnnotation)
 
