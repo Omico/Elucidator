@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.omico.elucidator.function
+package me.omico.elucidator.function.basic
 
-import me.omico.elucidator.GeneratedType
-import me.omico.elucidator.KtFileScope
-import me.omico.elucidator.function.basic.addDslScopeBasicExtensionFunctions
-import me.omico.elucidator.function.custom.addInteroperabilityFunction
-import me.omico.elucidator.function.custom.addTypeExtensionFunctions
-
-internal fun KtFileScope.addDslScopeExtensionFunctions(type: GeneratedType) {
-    addDslScopeBasicExtensionFunctions(type)
-    addInteroperabilityFunction(type)
-    addTypeExtensionFunctions(type)
+internal val BasicExtensionFunctions_AnnotationScope: List<BasicExtensionFunction> by lazy {
+    buildList {
+        add(BasicExtensionFunction_addMember)
+    }
 }
+private val BasicExtensionFunction_addMember: BasicExtensionFunction =
+    BasicExtensionFunction("addMember", "format" to String::class, "vararg args" to Any::class)

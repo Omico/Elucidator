@@ -18,7 +18,6 @@
 package me.omico.elucidator
 
 import me.omico.elucidator.function.addDslScopeExtensionFunctions
-import me.omico.elucidator.function.addInteroperabilityFunction
 import me.omico.elucidator.type.addDslBuilderClass
 import me.omico.elucidator.type.addDslScopeInterface
 import kotlin.io.path.Path
@@ -31,7 +30,6 @@ fun main(arguments: Array<String>) {
             addDslScopeInterface(type)
             addDslBuilderClass(type)
             addDslScopeExtensionFunctions(type)
-            addInteroperabilityFunction(type)
             writeTo(outputDirectory)
         }
     }
