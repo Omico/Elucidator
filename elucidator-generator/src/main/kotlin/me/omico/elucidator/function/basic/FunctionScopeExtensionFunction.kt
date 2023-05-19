@@ -20,6 +20,9 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.STAR
 import com.squareup.kotlinpoet.TypeName
+import me.omico.elucidator.parameterizedBy
+import me.omico.elucidator.vararg
+import me.omico.elucidator.with
 import kotlin.reflect.KClass
 
 internal val BasicExtensionFunctions_FunctionScope: List<BasicExtensionFunction> by lazy {
@@ -34,37 +37,37 @@ internal val BasicExtensionFunctions_FunctionScope: List<BasicExtensionFunction>
 }
 
 private val BasicExtensionFunctions_addParameter: List<BasicExtensionFunction> = listOf(
-    BasicExtensionFunction("addParameter", "parameterSpec" to ParameterSpec::class),
+    BasicExtensionFunction("addParameter", "parameterSpec" with ParameterSpec::class),
     BasicExtensionFunction(
         name = "addParameter",
         parameters = arrayOf(
-            "name" to String::class,
-            "type" to TypeName::class,
-            "vararg modifiers" to KModifier::class,
+            "name" with String::class,
+            "type" with TypeName::class,
+            "modifiers" with KModifier::class vararg true,
         ),
     ),
     BasicExtensionFunction(
         name = "addParameter",
         parameters = arrayOf(
-            "name" to String::class,
-            "type" to TypeName::class,
-            "modifiers" to Iterable::class.parameterizedBy(KModifier::class),
+            "name" with String::class,
+            "type" with TypeName::class,
+            "modifiers" with Iterable::class.parameterizedBy(KModifier::class),
         ),
     ),
     BasicExtensionFunction(
         name = "addParameter",
         parameters = arrayOf(
-            "name" to String::class,
-            "type" to KClass::class.parameterizedBy(Any::class).copy(typeArguments = listOf(STAR)),
-            "vararg modifiers" to KModifier::class,
+            "name" with String::class,
+            "type" with KClass::class.parameterizedBy(STAR),
+            "modifiers" with KModifier::class vararg true,
         ),
     ),
     BasicExtensionFunction(
         name = "addParameter",
         parameters = arrayOf(
-            "name" to String::class,
-            "type" to KClass::class.parameterizedBy(Any::class).copy(typeArguments = listOf(STAR)),
-            "modifiers" to Iterable::class.parameterizedBy(KModifier::class),
+            "name" with String::class,
+            "type" with KClass::class.parameterizedBy(STAR),
+            "modifiers" with Iterable::class.parameterizedBy(KModifier::class),
         ),
     ),
 )

@@ -15,10 +15,13 @@
  */
 package me.omico.elucidator.function.basic
 
+import me.omico.elucidator.vararg
+import me.omico.elucidator.with
+
 internal val BasicExtensionFunctions_AnnotationScope: List<BasicExtensionFunction> by lazy {
     buildList {
         add(BasicExtensionFunction_addMember)
     }
 }
 private val BasicExtensionFunction_addMember: BasicExtensionFunction =
-    BasicExtensionFunction("addMember", "format" to String::class, "vararg args" to Any::class)
+    BasicExtensionFunction("addMember", "format" with String::class, "args" with Any::class vararg true)

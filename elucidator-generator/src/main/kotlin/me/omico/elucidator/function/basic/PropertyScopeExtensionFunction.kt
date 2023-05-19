@@ -16,6 +16,8 @@
 package me.omico.elucidator.function.basic
 
 import com.squareup.kotlinpoet.asTypeName
+import me.omico.elucidator.vararg
+import me.omico.elucidator.with
 
 internal val BasicExtensionFunctions_PropertyScope: List<BasicExtensionFunction> by lazy {
     buildList {
@@ -29,7 +31,7 @@ private val BasicExtensionFunctions_initializer: BasicExtensionFunction =
     BasicExtensionFunction(
         name = "initializer",
         parameters = arrayOf(
-            "format" to String::class,
-            "vararg args" to Any::class.asTypeName().copy(nullable = true),
+            "format" with String::class,
+            "args" with Any::class.asTypeName().copy(nullable = true) vararg true,
         ),
     )

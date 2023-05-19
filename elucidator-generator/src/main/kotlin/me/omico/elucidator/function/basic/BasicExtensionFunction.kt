@@ -15,12 +15,14 @@
  */
 package me.omico.elucidator.function.basic
 
+import me.omico.elucidator.GeneratedParameterType
+
 internal data class BasicExtensionFunction(
     val name: String,
-    val parameters: Map<String, Any>,
+    val parameters: List<GeneratedParameterType> = emptyList(),
 )
 
 internal typealias BasicExtensionFunctions = Map<String, List<BasicExtensionFunction>>
 
-internal fun BasicExtensionFunction(name: String, vararg parameters: Pair<String, Any>): BasicExtensionFunction =
-    BasicExtensionFunction(name = name, parameters = mapOf(pairs = parameters))
+internal fun BasicExtensionFunction(name: String, vararg parameters: GeneratedParameterType): BasicExtensionFunction =
+    BasicExtensionFunction(name = name, parameters = parameters.toList())

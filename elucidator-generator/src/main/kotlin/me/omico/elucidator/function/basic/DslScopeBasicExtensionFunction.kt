@@ -21,19 +21,19 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
-import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import me.omico.elucidator.FunctionScope
 import me.omico.elucidator.GENERATED_PACKAGE_NAME
+import me.omico.elucidator.GeneratedParameterType
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
 import me.omico.elucidator.addFunction
 import me.omico.elucidator.addParameter
 import me.omico.elucidator.addStatement
+import me.omico.elucidator.defaultValue
 import me.omico.elucidator.receiver
-import me.omico.elucidator.utility.actualArrayName
-import me.omico.elucidator.utility.isVariableArray
-import kotlin.reflect.KClass
+import me.omico.elucidator.vararg
+import me.omico.elucidator.with
 
 internal fun KtFileScope.addDslScopeBasicExtensionFunctions(type: GeneratedType) {
     dslScopeBasicExtensionFunctions[type.generatedScopeName]?.forEach { function ->
@@ -49,30 +49,18 @@ private fun KtFileScope.addDslScopeBasicExtensionFunction(scope: String, functio
     }
 
 private fun FunctionScope.addBasicExtensionFunctionParameters(function: BasicExtensionFunction) =
-    function.parameters.forEach { (name, type) -> addBasicExtensionFunctionParameter(name, type) }
-
-private fun FunctionScope.addBasicExtensionFunctionParameter(name: String, type: Any): Unit =
-    when (type) {
-        is KClass<*> -> when {
-            isVariableArray(name) -> addParameter(actualArrayName(name), type, KModifier.VARARG)
-            else -> addParameter(name, type)
-        }
-        is TypeName -> when {
-            isVariableArray(name) -> addParameter(actualArrayName(name), type, KModifier.VARARG)
-            else -> addParameter(name, type)
-        }
-        else -> Unit
-    }
-
-private fun FunctionScope.addBasicExtensionFunctionStatement(function: BasicExtensionFunction) {
-    val parameters = function.parameters.keys.joinToString(", ") { name ->
-        when {
-            isVariableArray(name) -> "${actualArrayName(name)} = ${actualArrayName(name)}"
-            else -> "$name = $name"
+    function.parameters.forEach { parameter ->
+        addParameter(parameter.name, parameter.typeName) {
+            if (parameter.vararg) builder.addModifiers(KModifier.VARARG)
+            defaultValue(parameter.defaultValue)
         }
     }
-    addStatement("builder.${function.name}($parameters)")
-}
+
+private fun FunctionScope.addBasicExtensionFunctionStatement(function: BasicExtensionFunction): Unit =
+    function.parameters
+        .map(GeneratedParameterType::name)
+        .joinToString(", ") { name -> "$name = $name" }
+        .let { parameters -> addStatement("builder.${function.name}($parameters)") }
 
 private val dslScopeBasicExtensionFunctions: BasicExtensionFunctions by lazy {
     mapOf(
@@ -85,36 +73,42 @@ private val dslScopeBasicExtensionFunctions: BasicExtensionFunctions by lazy {
 }
 
 internal val BasicExtensionFunction_addAnnotation: BasicExtensionFunction =
-    BasicExtensionFunction("addAnnotation", "annotationSpec" to AnnotationSpec::class)
+    BasicExtensionFunction("addAnnotation", "annotationSpec" with AnnotationSpec::class)
 
 internal val BasicExtensionFunctions_addModifiers: List<BasicExtensionFunction> = listOf(
-    BasicExtensionFunction("addModifiers", "modifiers" to Iterable::class.parameterizedBy(KModifier::class)),
-    BasicExtensionFunction("addModifiers", "vararg modifiers" to KModifier::class),
+    BasicExtensionFunction("addModifiers", "modifiers" with Iterable::class.parameterizedBy(KModifier::class)),
+    BasicExtensionFunction("addModifiers", "modifiers" with KModifier::class vararg true),
 )
 
 internal val BasicExtensionFunction_addStatement: BasicExtensionFunction =
-    BasicExtensionFunction("addStatement", "format" to String::class, "vararg args" to Any::class)
+    BasicExtensionFunction("addStatement", "format" with String::class, "args" with Any::class vararg true)
 
 internal val BasicExtensionFunction_addFunction: BasicExtensionFunction =
-    BasicExtensionFunction("addFunction", "funSpec" to FunSpec::class)
+    BasicExtensionFunction("addFunction", "funSpec" with FunSpec::class)
 
 internal val BasicExtensionFunction_addProperty: BasicExtensionFunction =
-    BasicExtensionFunction("addProperty", "propertySpec" to PropertySpec::class)
+    BasicExtensionFunction("addProperty", "propertySpec" with PropertySpec::class)
 
 internal val BasicExtensionFunction_addType: BasicExtensionFunction =
-    BasicExtensionFunction("addType", "typeSpec" to TypeSpec::class)
+    BasicExtensionFunction("addType", "typeSpec" with TypeSpec::class)
 
 internal val BasicExtensionFunction_addSuperclassConstructorParameter: BasicExtensionFunction =
-    BasicExtensionFunction("addSuperclassConstructorParameter", "format" to String::class, "vararg args" to Any::class)
+    BasicExtensionFunction(
+        name = "addSuperclassConstructorParameter",
+        parameters = arrayOf(
+            "format" with String::class,
+            "args" with Any::class vararg true,
+        ),
+    )
 
 internal val BasicExtensionFunction_addFileComment: BasicExtensionFunction =
-    BasicExtensionFunction("addFileComment", "format" to String::class, "vararg args" to Any::class)
+    BasicExtensionFunction("addFileComment", "format" with String::class, "args" with Any::class vararg true)
 
 internal val BasicExtensionFunction_addComment: BasicExtensionFunction =
-    BasicExtensionFunction("addComment", "format" to String::class, "vararg args" to Any::class)
+    BasicExtensionFunction("addComment", "format" with String::class, "args" with Any::class vararg true)
 
 internal val BasicExtensionFunctions_controlFlow: List<BasicExtensionFunction> = listOf(
-    BasicExtensionFunction("beginControlFlow", "controlFlow" to String::class, "vararg args" to Any::class),
-    BasicExtensionFunction("nextControlFlow", "controlFlow" to String::class, "vararg args" to Any::class),
+    BasicExtensionFunction("beginControlFlow", "controlFlow" with String::class, "args" with Any::class vararg true),
+    BasicExtensionFunction("nextControlFlow", "controlFlow" with String::class, "args" with Any::class vararg true),
     BasicExtensionFunction("endControlFlow"),
 )
