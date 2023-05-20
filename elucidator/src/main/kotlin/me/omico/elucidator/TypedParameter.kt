@@ -15,6 +15,7 @@
  */
 package me.omico.elucidator
 
+import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.TypeName
@@ -27,6 +28,8 @@ public data class TypedParameter(
     val nullable: Boolean = false,
     val defaultValue: CodeBlock? = null,
     val vararg: Boolean = false,
+    val annotations: List<AnnotationSpec> = emptyList(),
+    val kdoc: CodeBlock? = null,
 )
 
 public infix fun String.with(type: TypeName): TypedParameter = TypedParameter(name = this, type = type)
@@ -44,8 +47,25 @@ public infix fun TypedParameter.defaultValue(defaultValue: String): TypedParamet
 
 public infix fun TypedParameter.vararg(vararg: Boolean): TypedParameter = copy(vararg = vararg)
 
+public infix fun TypedParameter.annotation(annotationSpec: AnnotationSpec): TypedParameter =
+    copy(annotations = listOf(annotationSpec))
+
+public infix fun TypedParameter.annotations(annotations: List<AnnotationSpec>): TypedParameter =
+    copy(annotations = annotations)
+
+public infix operator fun TypedParameter.plus(annotationSpec: AnnotationSpec): TypedParameter =
+    copy(annotations = annotations + annotationSpec)
+
+public infix fun TypedParameter.kdoc(kdoc: CodeBlock?): TypedParameter = copy(kdoc = kdoc)
+
 public fun FunctionScope.addParameter(parameter: TypedParameter): Unit =
     addParameter(name = parameter.name, type = parameter.type) {
         if (parameter.vararg) modifier(KModifier.VARARG)
         defaultValue(parameter.defaultValue)
+        addAnnotations(parameter.annotations)
+        parameter.kdoc?.let(::addKdoc)
     }
+
+public fun FunctionScope.addParameters(vararg parameters: TypedParameter): Unit = parameters.forEach(::addParameter)
+
+public fun FunctionScope.addParameters(parameters: Iterable<TypedParameter>): Unit = parameters.forEach(::addParameter)
