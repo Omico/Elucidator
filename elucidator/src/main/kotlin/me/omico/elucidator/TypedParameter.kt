@@ -1,0 +1,51 @@
+/*
+ * Copyright 2023 Omico
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package me.omico.elucidator
+
+import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.TypeName
+import com.squareup.kotlinpoet.asTypeName
+import kotlin.reflect.KClass
+
+public data class TypedParameter(
+    val name: String,
+    val type: TypeName,
+    val nullable: Boolean = false,
+    val defaultValue: CodeBlock? = null,
+    val vararg: Boolean = false,
+)
+
+public infix fun String.with(type: TypeName): TypedParameter = TypedParameter(name = this, type = type)
+
+public infix fun <T : Any> String.with(type: KClass<T>): TypedParameter = this with type.asTypeName()
+
+public infix fun TypedParameter.nullable(nullable: Boolean): TypedParameter =
+    copy(type = type.copy(nullable = nullable))
+
+public infix fun TypedParameter.defaultValue(defaultValue: CodeBlock): TypedParameter =
+    copy(defaultValue = defaultValue)
+
+public infix fun TypedParameter.defaultValue(defaultValue: String): TypedParameter =
+    CodeBlock.of(defaultValue).let(::defaultValue)
+
+public infix fun TypedParameter.vararg(vararg: Boolean): TypedParameter = copy(vararg = vararg)
+
+public fun FunctionScope.addParameter(parameter: TypedParameter): Unit =
+    addParameter(name = parameter.name, type = parameter.type) {
+        if (parameter.vararg) modifier(KModifier.VARARG)
+        defaultValue(parameter.defaultValue)
+    }
