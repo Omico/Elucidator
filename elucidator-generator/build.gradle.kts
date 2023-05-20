@@ -20,5 +20,6 @@ dependencies {
 }
 
 tasks.run<JavaExec> {
+    dependsOn(":spotlessApply")
     args = listOf(projectDir.resolveSibling("elucidator/build/generated/kotlin").absolutePath)
 }
