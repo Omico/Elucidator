@@ -22,6 +22,7 @@ import me.omico.elucidator.with
 internal val BasicExtensionFunctions_PropertyScope: List<BasicExtensionFunction> by lazy {
     buildList {
         add(BasicExtensionFunction_addAnnotation)
+        add(BasicExtensionFunction_addAnnotations)
         add(BasicExtensionFunctions_initializer)
         addAll(BasicExtensionFunctions_addModifiers)
     }

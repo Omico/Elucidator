@@ -28,6 +28,7 @@ import kotlin.reflect.KClass
 internal val BasicExtensionFunctions_FunctionScope: List<BasicExtensionFunction> by lazy {
     buildList {
         add(BasicExtensionFunction_addAnnotation)
+        add(BasicExtensionFunction_addAnnotations)
         add(BasicExtensionFunction_addComment)
         add(BasicExtensionFunction_addStatement)
         addAll(BasicExtensionFunctions_addModifiers)
