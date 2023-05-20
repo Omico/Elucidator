@@ -24,6 +24,7 @@ internal val BasicExtensionFunctions_PropertyScope: List<BasicExtensionFunction>
         add(BasicExtensionFunction_addAnnotation)
         add(BasicExtensionFunction_addAnnotations)
         add(BasicExtensionFunctions_initializer)
+        addAll(BasicExtensionFunctions_addKdoc)
         addAll(BasicExtensionFunctions_addModifiers)
     }
 }

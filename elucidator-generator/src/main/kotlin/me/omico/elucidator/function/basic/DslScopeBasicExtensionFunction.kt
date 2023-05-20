@@ -17,6 +17,7 @@ package me.omico.elucidator.function.basic
 
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
@@ -100,6 +101,11 @@ internal val BasicExtensionFunction_addProperty: BasicExtensionFunction =
 
 internal val BasicExtensionFunction_addType: BasicExtensionFunction =
     BasicExtensionFunction("addType", "typeSpec" with TypeSpec::class)
+
+internal val BasicExtensionFunctions_addKdoc: List<BasicExtensionFunction> = listOf(
+    BasicExtensionFunction("addKdoc", "format" with String::class, "args" with Any::class vararg true),
+    BasicExtensionFunction("addKdoc", "block" with CodeBlock::class),
+)
 
 internal val BasicExtensionFunction_addSuperclassConstructorParameter: BasicExtensionFunction =
     BasicExtensionFunction(

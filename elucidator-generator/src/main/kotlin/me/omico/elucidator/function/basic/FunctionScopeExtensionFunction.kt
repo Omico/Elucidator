@@ -31,6 +31,7 @@ internal val BasicExtensionFunctions_FunctionScope: List<BasicExtensionFunction>
         add(BasicExtensionFunction_addAnnotations)
         add(BasicExtensionFunction_addComment)
         add(BasicExtensionFunction_addStatement)
+        addAll(BasicExtensionFunctions_addKdoc)
         addAll(BasicExtensionFunctions_addModifiers)
         addAll(BasicExtensionFunctions_addParameter)
         addAll(BasicExtensionFunctions_controlFlow)

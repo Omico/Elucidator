@@ -23,6 +23,7 @@ internal val BasicExtensionFunctions_TypeScope: List<BasicExtensionFunction> by 
         add(BasicExtensionFunction_addProperty)
         add(BasicExtensionFunction_addSuperclassConstructorParameter)
         add(BasicExtensionFunction_addType)
+        addAll(BasicExtensionFunctions_addKdoc)
         addAll(BasicExtensionFunctions_addModifiers)
     }
 }
