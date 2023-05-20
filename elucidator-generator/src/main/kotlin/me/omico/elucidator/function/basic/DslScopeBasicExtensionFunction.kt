@@ -25,13 +25,12 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import me.omico.elucidator.FunctionScope
 import me.omico.elucidator.GENERATED_PACKAGE_NAME
-import me.omico.elucidator.GeneratedParameterType
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
+import me.omico.elucidator.TypedParameter
 import me.omico.elucidator.addFunction
-import me.omico.elucidator.addParameter
+import me.omico.elucidator.addParameters
 import me.omico.elucidator.addStatement
-import me.omico.elucidator.defaultValue
 import me.omico.elucidator.receiver
 import me.omico.elucidator.vararg
 import me.omico.elucidator.with
@@ -45,21 +44,13 @@ internal fun KtFileScope.addDslScopeBasicExtensionFunctions(type: GeneratedType)
 private fun KtFileScope.addDslScopeBasicExtensionFunction(scope: String, function: BasicExtensionFunction): Unit =
     addFunction(function.name) {
         receiver(ClassName(GENERATED_PACKAGE_NAME, scope))
-        addBasicExtensionFunctionParameters(function)
+        addParameters(function.parameters)
         addBasicExtensionFunctionStatement(function)
-    }
-
-private fun FunctionScope.addBasicExtensionFunctionParameters(function: BasicExtensionFunction) =
-    function.parameters.forEach { parameter ->
-        addParameter(parameter.name, parameter.typeName) {
-            if (parameter.vararg) builder.addModifiers(KModifier.VARARG)
-            defaultValue(parameter.defaultValue)
-        }
     }
 
 private fun FunctionScope.addBasicExtensionFunctionStatement(function: BasicExtensionFunction): Unit =
     function.parameters
-        .map(GeneratedParameterType::name)
+        .map(TypedParameter::name)
         .joinToString(", ") { name -> "$name = $name" }
         .let { parameters -> addStatement("builder.${function.name}($parameters)") }
 
