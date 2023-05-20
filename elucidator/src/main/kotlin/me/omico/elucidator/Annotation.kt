@@ -18,8 +18,8 @@ package me.omico.elucidator
 import com.squareup.kotlinpoet.AnnotationSpec
 import kotlin.reflect.KClass
 
-public fun <T : Annotation> annotation(type: KClass<T>, block: AnnotationScope.() -> Unit): AnnotationSpec =
+public fun <T : Annotation> annotation(type: KClass<T>, block: AnnotationScope.() -> Unit = {}): AnnotationSpec =
     AnnotationSpec.builder(type = type).applyDslBuilder(block).build()
 
-public inline fun <reified T : Annotation> annotation(noinline block: AnnotationScope.() -> Unit): AnnotationSpec =
+public inline fun <reified T : Annotation> annotation(noinline block: AnnotationScope.() -> Unit = {}): AnnotationSpec =
     annotation(type = T::class, block = block)
