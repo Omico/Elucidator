@@ -17,6 +17,7 @@ package me.omico.elucidator
 
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.TypeName
 import java.nio.file.Path
 
 public fun ktFile(
@@ -38,5 +39,13 @@ public inline fun <reified T> KtFileScope.addProperty(
     noinline block: PropertyScope.() -> Unit,
 ): Unit =
     property<T>(name = name, modifiers = modifiers, block = block).let(::addProperty)
+
+public fun KtFileScope.addProperty(
+    name: String,
+    type: TypeName,
+    vararg modifiers: KModifier,
+    block: PropertyScope.() -> Unit,
+): Unit =
+    property(name = name, type = type, modifiers = modifiers, block = block).let(::addProperty)
 
 public fun KtFileScope.writeTo(path: Path): Unit = build().writeTo(path)

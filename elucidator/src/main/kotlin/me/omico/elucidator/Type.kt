@@ -24,6 +24,10 @@ public inline fun <reified T> TypeScope.superclass() {
     builder.superclass(superclass = T::class)
 }
 
+public fun TypeScope.superclass(type: TypeName) {
+    builder.superclass(superclass = type)
+}
+
 public fun TypeScope.primaryConstructor(primaryConstructor: FunSpec?) {
     builder.primaryConstructor(primaryConstructor = primaryConstructor)
 }
@@ -33,6 +37,10 @@ public fun TypeScope.primaryConstructor(block: FunctionScope.() -> Unit): Unit =
 
 public fun TypeScope.addSuperinterface(type: TypeName, delegate: CodeBlock = EmptyCodeBlock) {
     builder.addSuperinterface(superinterface = type, delegate = delegate)
+}
+
+public fun TypeScope.addInitializerBlock(block: CodeBlock) {
+    builder.addInitializerBlock(block = block)
 }
 
 public fun TypeScope.addFunction(name: String, block: FunctionScope.() -> Unit): Unit =

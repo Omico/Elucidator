@@ -15,7 +15,9 @@
  */
 package me.omico.elucidator.function.basic
 
+import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.asTypeName
+import me.omico.elucidator.nullable
 import me.omico.elucidator.vararg
 import me.omico.elucidator.with
 
@@ -23,17 +25,19 @@ internal val BasicExtensionFunctions_PropertyScope: List<BasicExtensionFunction>
     buildList {
         add(BasicExtensionFunction_addAnnotation)
         add(BasicExtensionFunction_addAnnotations)
-        add(BasicExtensionFunctions_initializer)
         addAll(BasicExtensionFunctions_addKdoc)
         addAll(BasicExtensionFunctions_addModifiers)
+        addAll(BasicExtensionFunctions_initializer)
     }
 }
 
-private val BasicExtensionFunctions_initializer: BasicExtensionFunction =
+private val BasicExtensionFunctions_initializer: List<BasicExtensionFunction> = listOf(
     BasicExtensionFunction(
         name = "initializer",
         parameters = arrayOf(
             "format" with String::class,
             "args" with Any::class.asTypeName().copy(nullable = true) vararg true,
         ),
-    )
+    ),
+    BasicExtensionFunction("initializer", "codeBlock" with CodeBlock::class nullable true),
+)
