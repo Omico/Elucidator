@@ -1,5 +1,5 @@
 plugins {
-    id("elucidator.build-logic.root-project")
+    id("elucidator.root")
 }
 
 tasks.prepareKotlinBuildScriptModel {

@@ -1,9 +1,12 @@
+import me.omico.consensus.dsl.requireRootProject
+
 plugins {
     id("gradm")
-    id("common.build-logic.root-project.base")
-    id("common.build-logic.git.hooks")
-    id("elucidator.build-logic.spotless")
+    id("elucidator.root.git")
+    id("elucidator.root.spotless")
 }
+
+requireRootProject()
 
 val wrapper: Wrapper by tasks.named<Wrapper>("wrapper") {
     gradleVersion = versions.gradle

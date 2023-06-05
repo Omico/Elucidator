@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm")
-    id("common.build-logic.maven-publish")
+    id("elucidator.publishing")
 }
 
 kotlin {

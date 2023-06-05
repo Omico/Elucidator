@@ -1,26 +1,24 @@
 versions:
+  consensus: "0.2.0"
   dokka: "1.8.20"
   elucidator: "0.11.0"
   kotlin: "1.8.22"
   kotlinpoet: "1.14.2"
-  plugins:
-    age: "1.0.0-SNAPSHOT"
-    spotless: "6.19.0"
+  spotless: "6.19.0"
 
 repositories:
-  mavenLocal:
   mavenCentral:
-  sonatypeSnapshots:
-    url: "https://s01.oss.sonatype.org/content/repositories/snapshots"
   gradlePluginPortal:
 
 plugins:
   gradlePluginPortal:
-    com.diffplug.spotless: ${versions.plugins.spotless}
+    com.diffplug.spotless: ${versions.spotless}
     org.jetbrains.kotlin.jvm: ${versions.kotlin}
-  sonatypeSnapshots:
-    me.omico.age.project: ${versions.plugins.age}
-    me.omico.age.spotless: ${versions.plugins.age}
+  mavenCentral:
+    me.omico.consensus.api: ${versions.consensus}
+    me.omico.consensus.git: ${versions.consensus}
+    me.omico.consensus.publishing: ${versions.consensus}
+    me.omico.consensus.spotless: ${versions.consensus}
 
 dependencies:
   mavenCentral:
@@ -28,6 +26,10 @@ dependencies:
       kotlinpoet:
         alias: libs.kotlinpoet
         version: ${versions.kotlinpoet}
+    me.omico.consensus:
+      consensus-dsl:
+        alias: me.omico.consensus.dsl
+        version: ${versions.consensus}
     me.omico.elucidator:
       elucidator:
         alias: libs.elucidator
@@ -39,8 +41,3 @@ dependencies:
       dokka-core:
         alias: libs.dokka.core
         version: ${versions.dokka}
-  sonatypeSnapshots:
-    me.omico.age:
-      age-dsl:
-        alias: me.omico.age.dsl
-        version: ${versions.plugins.age}
