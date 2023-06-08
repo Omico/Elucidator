@@ -48,4 +48,8 @@ public fun KtFileScope.addProperty(
 ): Unit =
     property(name = name, type = type, modifiers = modifiers, block = block).let(::addProperty)
 
+public fun KtFileScope.addNewline() {
+    builder.addStatement("")
+}
+
 public fun KtFileScope.writeTo(path: Path): Unit = build().writeTo(path)

@@ -23,3 +23,10 @@ public fun ktsFile(
     block: KtFileScope.() -> Unit,
 ): FileSpec =
     FileSpec.scriptBuilder(fileName = fileName, packageName = packageName).applyDslBuilder(block).build()
+
+public fun KtFileScope.addCallExpression(format: String, vararg args: Any, block: KtFileScope.() -> Unit) {
+    require(builder.isScript) { "CallExpression can only be added to a script file." }
+    builder.beginControlFlow(controlFlow = format, args = args)
+    block()
+    builder.endControlFlow()
+}

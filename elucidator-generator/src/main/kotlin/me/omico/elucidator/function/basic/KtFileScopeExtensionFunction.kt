@@ -21,6 +21,7 @@ internal val BasicExtensionFunctions_KtFileScope: List<BasicExtensionFunction> b
         add(BasicExtensionFunction_addFileComment)
         add(BasicExtensionFunction_addFunction)
         add(BasicExtensionFunction_addProperty)
+        add(BasicExtensionFunction_addStatement)
         add(BasicExtensionFunction_addType)
     }
 }
