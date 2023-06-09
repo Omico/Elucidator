@@ -15,6 +15,8 @@
  */
 package me.omico.elucidator.function.basic
 
+import me.omico.elucidator.with
+
 internal val BasicExtensionFunctions_KtFileScope: List<BasicExtensionFunction> by lazy {
     buildList {
         add(BasicExtensionFunction_addAnnotation)
@@ -23,5 +25,9 @@ internal val BasicExtensionFunctions_KtFileScope: List<BasicExtensionFunction> b
         add(BasicExtensionFunction_addProperty)
         add(BasicExtensionFunction_addStatement)
         add(BasicExtensionFunction_addType)
+        add(BasicExtensionFunction_indent)
     }
 }
+
+internal val BasicExtensionFunction_indent: BasicExtensionFunction =
+    BasicExtensionFunction("indent", "indent" with String::class)

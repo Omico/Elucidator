@@ -31,6 +31,7 @@ import me.omico.elucidator.TypedParameter
 import me.omico.elucidator.addFunction
 import me.omico.elucidator.addParameters
 import me.omico.elucidator.addStatement
+import me.omico.elucidator.nullable
 import me.omico.elucidator.receiver
 import me.omico.elucidator.vararg
 import me.omico.elucidator.with
@@ -117,4 +118,9 @@ internal val BasicExtensionFunctions_controlFlow: List<BasicExtensionFunction> =
     BasicExtensionFunction("beginControlFlow", "controlFlow" with String::class, "args" with Any::class vararg true),
     BasicExtensionFunction("nextControlFlow", "controlFlow" with String::class, "args" with Any::class vararg true),
     BasicExtensionFunction("endControlFlow"),
+)
+
+internal val BasicExtensionFunctions_addCode: List<BasicExtensionFunction> = listOf(
+    BasicExtensionFunction("addCode", "format" with String::class, "args" with Any::class vararg true nullable true),
+    BasicExtensionFunction("addCode", "codeBlock" with CodeBlock::class),
 )

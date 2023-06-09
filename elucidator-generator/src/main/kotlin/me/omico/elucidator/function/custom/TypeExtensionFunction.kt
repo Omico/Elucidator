@@ -73,6 +73,7 @@ private fun KtFileScope.addAddTypeExtensionFunctions(type: GeneratedType) {
 private val typeNames: List<String> = listOf(
     "annotation",
     "class",
+    "companionObject",
     "enum",
     "expectClass",
     "funInterface",
