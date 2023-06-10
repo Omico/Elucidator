@@ -44,10 +44,9 @@ class KtFileTest {
             |import kotlin.Any
             |import kotlin.String
             |import kotlin.Suppress
-            |import kotlin.Unit
             |
             |@Suppress("unused")
-            |public fun test(parameter1: String, parameter2: Any): Unit {
+            |public fun test(parameter1: String, parameter2: Any) {
             |}
             |
             """.trimMargin()

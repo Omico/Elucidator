@@ -94,10 +94,9 @@ class IfStatementTest {
             |import kotlin.Any
             |import kotlin.String
             |import kotlin.Suppress
-            |import kotlin.Unit
             |
             |@Suppress("unused")
-            |public fun test(parameter1: String, parameter2: Any): Unit {
+            |public fun test(parameter1: String, parameter2: Any) {
             |  if (parameter1 == "hello") {
             |    // TODO if
             |  } else if (parameter2 is String) {

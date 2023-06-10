@@ -1,10 +1,10 @@
 versions:
-  elucidator: "0.6.0"
-  kotlin: "1.8.21"
-  kotlinpoet: "1.13.2"
+  elucidator: "0.9.0"
+  kotlin: "1.8.22"
+  kotlinpoet: "1.14.2"
   plugins:
     age: "1.0.0-SNAPSHOT"
-    spotless: "6.18.0"
+    spotless: "6.19.0"
 
 repositories:
   mavenLocal:
@@ -16,7 +16,6 @@ repositories:
 plugins:
   gradlePluginPortal:
     com.diffplug.spotless: ${versions.plugins.spotless}
-    com.gradle.enterprise: ${versions.plugins.gradle.enterprise}
     org.jetbrains.kotlin.jvm: ${versions.kotlin}
   sonatypeSnapshots:
     me.omico.age.project: ${versions.plugins.age}

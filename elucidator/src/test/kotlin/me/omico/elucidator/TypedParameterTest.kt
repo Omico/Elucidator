@@ -30,7 +30,7 @@ class TypedParameterTest {
         }
         assertEquals(
             expected = """
-            |public fun function(generics: kotlin.reflect.KClass<*>, vararg array: kotlin.String? = arrayOf("default")): kotlin.Unit {
+            |public fun function(generics: kotlin.reflect.KClass<*>, vararg array: kotlin.String? = arrayOf("default")) {
             |}
             |
             """.trimMargin(),
