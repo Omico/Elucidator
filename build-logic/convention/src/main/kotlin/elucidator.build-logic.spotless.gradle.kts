@@ -19,13 +19,16 @@ allprojects {
         }
         intelliJIDEARunConfiguration()
         kotlin(
+            excludeTargets = listOf("kotlinpoet/**"),
             licenseHeaderFile = rootProject.file("spotless/copyright.kt"),
             licenseHeaderConfig = {
                 updateYearWithLatest(true)
                 yearSeparator("-")
             },
         )
-        kotlinGradle()
+        kotlinGradle(
+            additionalExcludeTargets = setOf("kotlinpoet/**"),
+        )
     }
 }
 

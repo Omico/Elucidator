@@ -1,0 +1,3 @@
+[submodule "kotlinpoet"]
+	path = kotlinpoet
+	url = https://github.com/square/kotlinpoet.git
