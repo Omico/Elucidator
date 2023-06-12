@@ -25,7 +25,6 @@ import kotlin.reflect.KClass
 public data class TypedParameter(
     val name: String,
     val type: TypeName,
-    val nullable: Boolean = false,
     val defaultValue: CodeBlock? = null,
     val vararg: Boolean = false,
     val annotations: List<AnnotationSpec> = emptyList(),
