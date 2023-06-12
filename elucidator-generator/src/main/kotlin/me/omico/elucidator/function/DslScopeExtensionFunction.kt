@@ -21,12 +21,10 @@ import me.omico.elucidator.function.basic.addDslScopeBasicExtensionFunctions
 import me.omico.elucidator.function.custom.addFunctionBuilderFunctions
 import me.omico.elucidator.function.custom.addInteroperabilityFunction
 import me.omico.elucidator.function.custom.addModifierExtensionFunction
-import me.omico.elucidator.function.custom.addTypeExtensionFunctions
 
 internal fun KtFileScope.addDslScopeExtensionFunctions(type: GeneratedType) {
     addDslScopeBasicExtensionFunctions(type)
     addFunctionBuilderFunctions(type)
     addInteroperabilityFunction(type)
     addModifierExtensionFunction(type)
-    addTypeExtensionFunctions(type)
 }

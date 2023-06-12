@@ -13,13 +13,17 @@ kotlin {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
-    implementation(kotlin("reflect"))
+    implementation(kotlin("compiler"))
+    implementation(libs.dokka.analysis)
+    implementation(libs.dokka.core)
     implementation(libs.elucidator)
     implementation(libs.kotlinpoet)
 }
 
 tasks.run<JavaExec> {
     dependsOn(":spotlessApply")
-    args = listOf(projectDir.resolveSibling("elucidator/build/generated/kotlin").absolutePath)
+    args = listOf(
+        projectDir.resolveSibling("kotlinpoet").absolutePath,
+        projectDir.resolveSibling("elucidator/build/generated/kotlin").absolutePath,
+    )
 }

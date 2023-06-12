@@ -23,8 +23,8 @@ internal val generatedTypes: List<GeneratedType> =
         .mapNotNull(KClass<out GeneratedType>::objectInstance)
 
 internal sealed class GeneratedType(
-    name: String,
-    objectClass: String,
+    val name: String,
+    val objectClass: String,
     builderClass: String = "$objectClass.Builder",
 ) {
     val objectClassName: ClassName = ClassName.bestGuess(objectClass)
