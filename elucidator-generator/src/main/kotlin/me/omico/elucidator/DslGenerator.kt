@@ -18,6 +18,7 @@
 package me.omico.elucidator
 
 import me.omico.elucidator.function.addDslScopeExtensionFunctions
+import me.omico.elucidator.function.custom.addTypeExtensionFunctions
 import me.omico.elucidator.psi.addDslExtensionsFromPsi
 import me.omico.elucidator.psi.createKotlinpoetKtFileMap
 import me.omico.elucidator.type.addDslBuilderClass
@@ -36,6 +37,7 @@ fun main(arguments: Array<String>) {
             addDslBuilderClass(type)
             addDslScopeExtensionFunctions(type)
             addDslExtensionsFromPsi(ktFileMap)
+            addTypeExtensionFunctions(type)
             writeTo(outputDirectory)
         }
     }
