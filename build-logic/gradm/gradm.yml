@@ -1,6 +1,6 @@
 versions:
   dokka: "1.8.20"
-  elucidator: "0.9.0"
+  elucidator: "0.11.0"
   kotlin: "1.8.22"
   kotlinpoet: "1.14.2"
   plugins:
