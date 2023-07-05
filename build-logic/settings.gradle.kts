@@ -1,6 +1,4 @@
-@file:Suppress("UnstableApiUsage")
-
-rootProject.name = "build-logic"
+rootProject.name = "elucidator-build-logic"
 
 pluginManagement {
     includeBuild("gradm")
