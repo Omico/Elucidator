@@ -1,23 +1,12 @@
 rootProject.name = "elucidator-root"
 
 pluginManagement {
-    includeBuild("build-logic/gradm")
+    includeBuild("build-logic/initialization")
 }
 
 plugins {
-    id("gradm")
-    `gradle-enterprise`
+    id("elucidator")
 }
-
-gradleEnterprise {
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-        publishAlwaysIf(!gradle.startParameter.isOffline)
-    }
-}
-
-includeBuild("build-logic")
 
 include(":elucidator")
 include(":elucidator-generator")

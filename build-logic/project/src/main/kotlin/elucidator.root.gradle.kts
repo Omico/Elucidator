@@ -9,6 +9,6 @@ plugins {
 requireRootProject()
 
 val wrapper: Wrapper by tasks.named<Wrapper>("wrapper") {
-    gradleVersion = versions.gradle
+    gradleVersion = versions.gradle.toString()
     distributionType = Wrapper.DistributionType.BIN
 }

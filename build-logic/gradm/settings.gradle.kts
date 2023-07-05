@@ -1,1 +1,1 @@
-rootProject.name = "elucidator-gradm"
+rootProject.name = "elucidator-build-logic-gradm"
