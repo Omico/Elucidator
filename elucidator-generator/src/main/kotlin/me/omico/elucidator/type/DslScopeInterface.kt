@@ -15,6 +15,7 @@
  */
 package me.omico.elucidator.type
 
+import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.KModifier
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
@@ -26,6 +27,8 @@ import me.omico.elucidator.returnType
 
 internal fun KtFileScope.addDslScopeInterface(type: GeneratedType): Unit =
     addInterface(type.generatedScopeName) {
+        // TODO Fix addAnnotation
+        builder.addAnnotation(ClassName("me.omico.elucidator", "ElucidatorDsl"))
         addProperty("builder", type.builderClassName)
         addFunction("build") {
             modifier(KModifier.ABSTRACT)
