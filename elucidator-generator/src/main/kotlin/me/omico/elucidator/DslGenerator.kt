@@ -23,12 +23,14 @@ import me.omico.elucidator.psi.addDslExtensionsFromPsi
 import me.omico.elucidator.psi.createKotlinpoetKtFileMap
 import me.omico.elucidator.type.addDslBuilderClass
 import me.omico.elucidator.type.addDslScopeInterface
+import me.omico.elucidator.utility.clearDirectory
 import java.io.File
 import kotlin.io.path.Path
 
 fun main(arguments: Array<String>) {
     val kotlinpoetDirectory = File(arguments[0])
     val outputDirectory = Path(arguments[1])
+    outputDirectory.clearDirectory()
     val ktFileMap = createKotlinpoetKtFileMap(kotlinpoetDirectory)
     generatedTypes.forEach { type ->
         ktFile(GENERATED_PACKAGE_NAME, type.generatedFileName) {
