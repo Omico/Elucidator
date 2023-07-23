@@ -17,6 +17,8 @@ package me.omico.elucidator.function.basic
 
 internal val BasicExtensionFunctions_ParameterScope: List<BasicExtensionFunction> by lazy {
     buildList {
+        add(BasicExtensionFunction_addAnnotation)
+        add(BasicExtensionFunction_addAnnotations)
         addAll(BasicExtensionFunctions_addKdoc)
         addAll(BasicExtensionFunctions_addModifiers)
     }
