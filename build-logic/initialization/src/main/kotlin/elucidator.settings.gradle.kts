@@ -1,10 +1,6 @@
-pluginManagement {
-    repositories {
-        maven(url = "https://maven.omico.me")
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
+import me.omico.gradm.addDeclaredRepositories
+
+addDeclaredRepositories()
 
 plugins {
     id("gradm")
