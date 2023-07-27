@@ -1,7 +1,7 @@
 versions:
   consensus: "0.3.0"
   dokka: "1.8.20"
-  elucidator: "0.11.0"
+  elucidator: "0.13.0"
   gradle: "8.2.1"
   gradle.enterprise: "3.14"
   kotlin: "1.8.22"

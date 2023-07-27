@@ -25,11 +25,11 @@ import com.squareup.kotlinpoet.asClassName
 import me.omico.elucidator.FunctionScope
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
-import me.omico.elucidator.addAnnotation
 import me.omico.elucidator.addFunction
 import me.omico.elucidator.addMember
 import me.omico.elucidator.addParameter
 import me.omico.elucidator.addStatement
+import me.omico.elucidator.annotate
 import me.omico.elucidator.lambdaTypeName
 import me.omico.elucidator.modifiers
 import me.omico.elucidator.psi.utility.findChildren
@@ -114,7 +114,7 @@ private fun KtFileScope.addDeprecatedAnnotateExtensionFunctions(type: GeneratedT
 }
 
 private fun FunctionScope.addDeprecatedAnnotation(parameterName: String): Unit =
-    addAnnotation<Deprecated> {
+    annotate<Deprecated> {
         addMember("message = \"\"\"In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.\"\"\"")
         addMember("replaceWith = ReplaceWith(\"annotate($parameterName)\")")
         addMember("level = DeprecationLevel.WARNING")
