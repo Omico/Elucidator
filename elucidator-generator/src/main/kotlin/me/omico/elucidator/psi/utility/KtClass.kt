@@ -13,15 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.omico.elucidator.function.basic
+package me.omico.elucidator.psi.utility
 
-internal val BasicExtensionFunctions_TypeScope: List<BasicExtensionFunction> by lazy {
-    buildList {
-        add(BasicExtensionFunction_addFunction)
-        add(BasicExtensionFunction_addProperty)
-        add(BasicExtensionFunction_addSuperclassConstructorParameter)
-        add(BasicExtensionFunction_addType)
-        addAll(BasicExtensionFunctions_addKdoc)
-        addAll(BasicExtensionFunctions_addModifiers)
-    }
-}
+import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtSuperTypeListEntry
+
+internal fun KtClass.hasSuperType(superType: String): Boolean =
+    superTypeListEntries
+        .mapNotNull(KtSuperTypeListEntry::getTypeAsUserType)
+        .any { userType -> userType.referencedName == superType }

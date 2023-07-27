@@ -19,7 +19,6 @@ import me.omico.elucidator.with
 
 internal val BasicExtensionFunctions_KtFileScope: List<BasicExtensionFunction> by lazy {
     buildList {
-        add(BasicExtensionFunction_addAnnotation)
         add(BasicExtensionFunction_addFileComment)
         add(BasicExtensionFunction_addFunction)
         add(BasicExtensionFunction_addProperty)

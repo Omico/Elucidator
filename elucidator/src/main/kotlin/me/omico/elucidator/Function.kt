@@ -24,9 +24,6 @@ import com.squareup.kotlinpoet.asTypeName
 public fun function(name: String, block: FunctionScope.() -> Unit): FunSpec =
     FunSpec.builder(name = name).applyDslBuilder(block).build()
 
-public inline fun <reified T : Annotation> FunctionScope.addAnnotation(noinline block: AnnotationScope.() -> Unit): Unit =
-    annotation<T>(block = block).let(::addAnnotation)
-
 public inline fun <reified T> FunctionScope.receiver(kdoc: CodeBlock = EmptyCodeBlock) {
     builder.receiver(receiverType = T::class, kdoc = kdoc)
 }

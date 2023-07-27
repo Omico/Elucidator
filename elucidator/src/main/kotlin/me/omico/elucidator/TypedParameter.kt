@@ -46,10 +46,10 @@ public infix fun TypedParameter.defaultValue(defaultValue: String): TypedParamet
 
 public infix fun TypedParameter.vararg(vararg: Boolean): TypedParameter = copy(vararg = vararg)
 
-public infix fun TypedParameter.annotation(annotationSpec: AnnotationSpec): TypedParameter =
+public infix fun TypedParameter.annotate(annotationSpec: AnnotationSpec): TypedParameter =
     copy(annotations = listOf(annotationSpec))
 
-public infix fun TypedParameter.annotations(annotations: List<AnnotationSpec>): TypedParameter =
+public infix fun TypedParameter.annotate(annotations: List<AnnotationSpec>): TypedParameter =
     copy(annotations = annotations)
 
 public infix operator fun TypedParameter.plus(annotationSpec: AnnotationSpec): TypedParameter =
@@ -61,7 +61,7 @@ public fun FunctionScope.addParameter(parameter: TypedParameter): Unit =
     addParameter(name = parameter.name, type = parameter.type) {
         if (parameter.vararg) modifier(KModifier.VARARG)
         defaultValue(parameter.defaultValue)
-        addAnnotations(parameter.annotations)
+        annotate(parameter.annotations)
         parameter.kdoc?.let(::addKdoc)
     }
 

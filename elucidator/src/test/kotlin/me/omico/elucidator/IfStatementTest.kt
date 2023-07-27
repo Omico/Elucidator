@@ -68,7 +68,7 @@ class IfStatementTest {
     fun `test output`() {
         ktFile("hello", "World") {
             addFunction("test") {
-                addAnnotation<Suppress> {
+                annotate<Suppress> {
                     addMember("%S", "unused")
                 }
                 addParameter<String>("parameter1")

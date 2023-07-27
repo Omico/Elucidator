@@ -30,9 +30,6 @@ public fun ktFile(
 public fun KtFileScope.addFunction(name: String, block: FunctionScope.() -> Unit): Unit =
     function(name = name, block = block).let(::addFunction)
 
-public inline fun <reified T : Annotation> KtFileScope.addAnnotation(noinline block: AnnotationScope.() -> Unit): Unit =
-    annotation(type = T::class, block = block).let(::addAnnotation)
-
 public inline fun <reified T> KtFileScope.addProperty(
     name: String,
     vararg modifiers: KModifier,

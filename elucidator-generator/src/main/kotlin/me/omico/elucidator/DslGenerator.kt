@@ -21,6 +21,8 @@ import me.omico.elucidator.function.addDslScopeExtensionFunctions
 import me.omico.elucidator.function.custom.addTypeExtensionFunctions
 import me.omico.elucidator.psi.addDslExtensionsFromPsi
 import me.omico.elucidator.psi.createKotlinpoetKtFileMap
+import me.omico.elucidator.psi.extension.addAnnotateExtensionFunctions
+import me.omico.elucidator.psi.extension.annotatableSpecs
 import me.omico.elucidator.type.addDslBuilderClass
 import me.omico.elucidator.type.addDslScopeInterface
 import me.omico.elucidator.utility.clearDirectory
@@ -32,6 +34,7 @@ fun main(arguments: Array<String>) {
     val outputDirectory = Path(arguments[1])
     outputDirectory.clearDirectory()
     val ktFileMap = createKotlinpoetKtFileMap(kotlinpoetDirectory)
+    val annotatableSpecs = ktFileMap.annotatableSpecs
     generatedTypes.forEach { type ->
         ktFile(GENERATED_PACKAGE_NAME, type.generatedFileName) {
             addFileComment(GENERATED_HEADER_COMMENT)
@@ -40,6 +43,7 @@ fun main(arguments: Array<String>) {
             addDslScopeExtensionFunctions(type)
             addDslExtensionsFromPsi(ktFileMap)
             addTypeExtensionFunctions(type)
+            addAnnotateExtensionFunctions(annotatableSpecs, type)
             writeTo(outputDirectory)
         }
     }

@@ -15,39 +15,34 @@
  */
 package me.omico.elucidator
 
-import java.nio.file.Path
-import kotlin.io.path.createTempDirectory
-import kotlin.io.path.readText
+import com.squareup.kotlinpoet.ClassName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class KtFileTest {
-    private val tempDirectory: Path = createTempDirectory()
-
+class TypeTest {
     @Test
-    fun test() {
-        ktFile("hello", "World") {
-            addFunction("test") {
-                addParameter<String>("parameter1")
-                addParameter<Any>("parameter2")
-                returnType<Unit>()
+    fun `test declare annotation for interface`() {
+        val file = ktFile(packageName = "foo", fileName = "Test") {
+            addAnnotation("AAnnotation")
+            addInterface("TestInterface") {
+                annotate(ClassName("foo", "AAnnotation"))
+                addAnnotation("BAnnotation")
             }
-            writeTo(tempDirectory)
         }
-        val expected =
+        assertEquals(
+            expected =
             """
-            |package hello
+            |package foo
             |
-            |import kotlin.Any
-            |import kotlin.String
+            |public annotation class AAnnotation
             |
-            |public fun test(parameter1: String, parameter2: Any) {
+            |@AAnnotation
+            |public interface TestInterface {
+            |  public annotation class BAnnotation
             |}
             |
-            """.trimMargin()
-        assertEquals(
-            expected = expected,
-            actual = tempDirectory.resolve("hello/World.kt").readText(),
+            """.trimMargin(),
+            actual = file.toString(),
         )
     }
 }

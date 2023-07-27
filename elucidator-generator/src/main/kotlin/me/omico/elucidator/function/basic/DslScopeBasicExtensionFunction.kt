@@ -15,7 +15,6 @@
  */
 package me.omico.elucidator.function.basic
 
-import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.FunSpec
@@ -65,17 +64,6 @@ private val dslScopeBasicExtensionFunctions: BasicExtensionFunctions by lazy {
         "TypeScope" to BasicExtensionFunctions_TypeScope,
     )
 }
-
-internal val BasicExtensionFunction_addAnnotation: BasicExtensionFunction =
-    BasicExtensionFunction("addAnnotation", "annotationSpec" with AnnotationSpec::class)
-
-internal val BasicExtensionFunction_addAnnotations: BasicExtensionFunction =
-    BasicExtensionFunction(
-        name = "addAnnotations",
-        parameters = arrayOf(
-            "annotationSpecs" with Iterable::class.parameterizedBy(AnnotationSpec::class),
-        ),
-    )
 
 internal val BasicExtensionFunctions_addModifiers: List<BasicExtensionFunction> = listOf(
     BasicExtensionFunction("addModifiers", "modifiers" with Iterable::class.parameterizedBy(KModifier::class)),

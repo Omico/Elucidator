@@ -13,15 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.omico.elucidator.function.basic
+package me.omico.elucidator.psi.utility
 
-internal val BasicExtensionFunctions_TypeScope: List<BasicExtensionFunction> by lazy {
-    buildList {
-        add(BasicExtensionFunction_addFunction)
-        add(BasicExtensionFunction_addProperty)
-        add(BasicExtensionFunction_addSuperclassConstructorParameter)
-        add(BasicExtensionFunction_addType)
-        addAll(BasicExtensionFunctions_addKdoc)
-        addAll(BasicExtensionFunctions_addModifiers)
-    }
-}
+import com.intellij.psi.impl.source.PsiFileImpl
+
+internal inline fun <reified T> PsiFileImpl.findChildren(): List<T> = findChildrenByClass(T::class.java).toList()
