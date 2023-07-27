@@ -115,7 +115,10 @@ private fun KtFileScope.addDeprecatedAnnotateExtensionFunctions(type: GeneratedT
 
 private fun FunctionScope.addDeprecatedAnnotation(parameterName: String): Unit =
     annotate<Deprecated> {
-        addMember("message = \"\"\"In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.\"\"\"")
+        addMember(
+            format = "message = %S",
+            args = arrayOf("In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead."),
+        )
         addMember("replaceWith = ReplaceWith(\"annotate($parameterName)\")")
         addMember("level = DeprecationLevel.WARNING")
     }
