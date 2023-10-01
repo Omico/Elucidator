@@ -1,4 +1,4 @@
-rootProject.name = "elucidator-build-logic-gradm"
+rootProject.name = "elucidator-gradm"
 
 pluginManagement {
     repositories {

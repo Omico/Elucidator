@@ -1,9 +1,9 @@
-rootProject.name = "elucidator-build-logic-initialization"
+rootProject.name = "elucidator-initialization"
 
 pluginManagement {
     includeBuild("../gradm")
 }
 
 plugins {
-    id("gradm")
+    id("elucidator.gradm")
 }

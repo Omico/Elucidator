@@ -3,7 +3,7 @@ import me.omico.gradm.addDeclaredRepositories
 addDeclaredRepositories()
 
 plugins {
-    id("gradm")
+    id("elucidator.gradm")
     id("elucidator.gradle-enterprise")
 }
 

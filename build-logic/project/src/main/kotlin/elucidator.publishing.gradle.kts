@@ -5,8 +5,6 @@ plugins {
 }
 
 consensus {
-    group = gradleProperty("PROJECT_GROUP_ID")
-    version = gradleProperty("PROJECT_VERSION")
     publishing {
         when {
             environmentVariables.getOrDefault("CI", false) -> publishToNexusRepository()
