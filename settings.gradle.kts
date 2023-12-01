@@ -10,3 +10,5 @@ plugins {
 
 include(":elucidator")
 include(":elucidator-generator")
+
+includeBuild("kotlinpoet")
