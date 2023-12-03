@@ -49,4 +49,4 @@ public fun KtFileScope.addNewline() {
     builder.addStatement("")
 }
 
-public fun KtFileScope.writeTo(path: Path): Unit = build().writeTo(path)
+public fun KtFileScope.writeTo(path: Path): Path = build().writeTo(path)
