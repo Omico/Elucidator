@@ -1,5 +1,6 @@
 import me.omico.consensus.dsl.isGitDirectoryExists
 import me.omico.consensus.dsl.requireRootProject
+import me.omico.gradm.Versions
 
 plugins {
     id("me.omico.consensus.git")
@@ -20,6 +21,9 @@ consensus {
                     appendLine()
                 }
             }
+        }
+        operations {
+            checkoutTag(Versions.kotlinpoet, workingDir = file("kotlinpoet"))
         }
     }
 }
