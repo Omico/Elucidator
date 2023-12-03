@@ -32,16 +32,12 @@ import me.omico.elucidator.addStatement
 import me.omico.elucidator.annotate
 import me.omico.elucidator.lambdaTypeName
 import me.omico.elucidator.modifiers
-import me.omico.elucidator.psi.utility.findChildren
-import me.omico.elucidator.psi.utility.hasSuperType
 import me.omico.elucidator.receiver
 import me.omico.elucidator.vararg
 import me.omico.elucidator.with
-import org.jetbrains.kotlin.psi.KtClass
-import org.jetbrains.kotlin.psi.KtFile
 
-internal fun KtFileScope.addAnnotateExtensionFunctions(annotatableSpecs: Set<String>, type: GeneratedType) {
-    if (type.objectClass !in annotatableSpecs) return
+internal fun KtFileScope.addAnnotateExtensionFunctions(annotatableSpecFqNames: Set<String>, type: GeneratedType) {
+    if (type.objectClass !in annotatableSpecFqNames) return
     addDeprecatedAnnotateExtensionFunctions(type)
     addFunction("annotate") {
         modifiers(KModifier.INLINE)
@@ -89,14 +85,6 @@ internal fun KtFileScope.addAnnotateExtensionFunctions(annotatableSpecs: Set<Str
         addStatement("builder.addAnnotation(annotation = T::class)")
     }
 }
-
-internal inline val Map<String, KtFile>.annotatableSpecs: Set<String>
-    get() = values
-        .asSequence()
-        .flatMap { ktFile -> ktFile.findChildren<KtClass>() }
-        .filter { ktClass -> ktClass.hasSuperType("Annotatable") && ktClass.name!!.endsWith("Spec") }
-        .mapNotNull { it.fqName?.asString() }
-        .toSortedSet()
 
 private fun KtFileScope.addDeprecatedAnnotateExtensionFunctions(type: GeneratedType) {
     addFunction("addAnnotation") {

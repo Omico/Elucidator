@@ -17,10 +17,12 @@ package me.omico.elucidator.psi.info
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
+import me.omico.delusion.kotlin.compiler.embeddable.fqName
+import me.omico.delusion.kotlin.compiler.embeddable.resolveType
 import me.omico.elucidator.TypedParameter
-import me.omico.elucidator.psi.utility.isNullable
-import me.omico.elucidator.psi.utility.typeFqName
 import org.jetbrains.kotlin.psi.KtParameter
+import org.jetbrains.kotlin.resolve.BindingContext
+import org.jetbrains.kotlin.types.isNullable
 
 internal data class KtParameterInfo(
     val name: String,
@@ -30,14 +32,16 @@ internal data class KtParameterInfo(
     val defaultValue: String?,
 )
 
-internal fun KtParameterInfo(parameter: KtParameter): KtParameterInfo =
-    KtParameterInfo(
-        name = parameter.name!!,
-        type = parameter.typeFqName,
-        isVarArg = parameter.isVarArg,
-        isNullable = parameter.isNullable,
-        defaultValue = parameter.defaultValue?.text,
+internal fun KtParameter.createKtParameterInfo(bindingContext: BindingContext): KtParameterInfo {
+    val returnType = resolveType(bindingContext)
+    return KtParameterInfo(
+        name = name!!,
+        type = returnType.fqName.asString(),
+        isVarArg = isVarArg,
+        isNullable = returnType.isNullable(),
+        defaultValue = defaultValue?.text,
     )
+}
 
 internal fun KtParameterInfo.toTypedParameter(): TypedParameter =
     TypedParameter(

@@ -16,6 +16,7 @@
 package me.omico.elucidator.psi.extension
 
 import com.squareup.kotlinpoet.TypeSpec
+import me.omico.delusion.kotlin.compiler.embeddable.typeFqName
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
 import me.omico.elucidator.TypedParameter
@@ -24,9 +25,9 @@ import me.omico.elucidator.addParameter
 import me.omico.elucidator.psi.addScopeLambdaBlock
 import me.omico.elucidator.psi.addWhile
 import me.omico.elucidator.psi.info.KtFunctionInfo
+import me.omico.elucidator.psi.info.createKtFunctionInfo
 import me.omico.elucidator.psi.info.toTypedParameters
 import me.omico.elucidator.psi.utility.requireChild
-import me.omico.elucidator.psi.utility.typeFqName
 import me.omico.elucidator.receiver
 import me.omico.elucidator.returnStatement
 import me.omico.elucidator.utility.capitalize
@@ -34,16 +35,17 @@ import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.resolve.BindingContext
 
-internal fun KtFileScope.addTypeExtensions(fqName: String, ktFile: KtFile): Unit =
+internal fun KtFileScope.addTypeExtensions(fqName: String, ktFile: KtFile, bindingContext: BindingContext): Unit =
     addWhile(actualFqName = fqName, expectGeneratedType = GeneratedType.Type) {
-        val companionObject = ktFile.requireChild<KtClass>().companionObjects.first()
+        val companionObject = ktFile.requireChild<KtClass>().companionObjects.firstOrNull() ?: return@addWhile
         val generatedTypeSpecExtensions = companionObject.declarations
             .asSequence()
             .filterIsInstance<KtNamedFunction>()
             .filter { it.modifierList?.hasModifier(KtTokens.PUBLIC_KEYWORD) == true }
-            .filter { it.typeFqName == "com.squareup.kotlinpoet.TypeSpec.Builder" }
-            .map(::KtFunctionInfo)
+            .filter { it.typeFqName(bindingContext).asString() == "com.squareup.kotlinpoet.TypeSpec.Builder" }
+            .map { it.createKtFunctionInfo(bindingContext) }
             .map(::GeneratedTypeSpecExtension)
         generatedTypeSpecExtensions.forEach { generatedTypeSpecExtension ->
             addFunction(generatedTypeSpecExtension.typeName) {

@@ -37,11 +37,11 @@ internal sealed class GeneratedType(
 
     val generatedBuilderName: String = "${name}Builder"
 
-    object Annotation : GeneratedType("Annotation", "com.squareup.kotlinpoet.AnnotationSpec")
-    object CodeBlock : GeneratedType("CodeBlock", "com.squareup.kotlinpoet.CodeBlock")
-    object Function : GeneratedType("Function", "com.squareup.kotlinpoet.FunSpec")
-    object KtFile : GeneratedType("KtFile", "com.squareup.kotlinpoet.FileSpec")
-    object Parameter : GeneratedType("Parameter", "com.squareup.kotlinpoet.ParameterSpec")
-    object Property : GeneratedType("Property", "com.squareup.kotlinpoet.PropertySpec")
-    object Type : GeneratedType("Type", "com.squareup.kotlinpoet.TypeSpec")
+    data object Annotation : GeneratedType("Annotation", "com.squareup.kotlinpoet.AnnotationSpec")
+    data object CodeBlock : GeneratedType("CodeBlock", "com.squareup.kotlinpoet.CodeBlock")
+    data object Function : GeneratedType("Function", "com.squareup.kotlinpoet.FunSpec")
+    data object KtFile : GeneratedType("KtFile", "com.squareup.kotlinpoet.FileSpec")
+    data object Parameter : GeneratedType("Parameter", "com.squareup.kotlinpoet.ParameterSpec")
+    data object Property : GeneratedType("Property", "com.squareup.kotlinpoet.PropertySpec")
+    data object Type : GeneratedType("Type", "com.squareup.kotlinpoet.TypeSpec")
 }

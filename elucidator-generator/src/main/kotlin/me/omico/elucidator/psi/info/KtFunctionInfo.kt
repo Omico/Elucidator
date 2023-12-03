@@ -15,9 +15,11 @@
  */
 package me.omico.elucidator.psi.info
 
-import me.omico.elucidator.psi.utility.isNullable
-import me.omico.elucidator.psi.utility.typeFqName
+import me.omico.delusion.kotlin.compiler.embeddable.fqName
+import me.omico.delusion.kotlin.compiler.embeddable.resolveType
 import org.jetbrains.kotlin.psi.KtNamedFunction
+import org.jetbrains.kotlin.resolve.BindingContext
+import org.jetbrains.kotlin.types.isNullable
 
 internal data class KtFunctionInfo(
     val name: String,
@@ -26,10 +28,12 @@ internal data class KtFunctionInfo(
     val isNullable: Boolean,
 )
 
-internal fun KtFunctionInfo(function: KtNamedFunction): KtFunctionInfo =
-    KtFunctionInfo(
-        name = function.name!!,
-        parameters = function.valueParameters.map(::KtParameterInfo),
-        returnType = function.typeFqName,
-        isNullable = function.isNullable,
+internal fun KtNamedFunction.createKtFunctionInfo(bindingContext: BindingContext): KtFunctionInfo {
+    val returnType = resolveType(bindingContext)
+    return KtFunctionInfo(
+        name = name!!,
+        parameters = valueParameters.map { parameter -> parameter.createKtParameterInfo(bindingContext) },
+        returnType = returnType.fqName.asString(),
+        isNullable = returnType.isNullable(),
     )
+}

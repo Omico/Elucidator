@@ -15,7 +15,7 @@
  */
 package me.omico.elucidator.psi.utility
 
-import com.intellij.psi.PsiElement
+import org.jetbrains.kotlin.com.intellij.psi.PsiElement
 
 internal inline fun <reified T> PsiElement.findChild(): T? = children.find { it is T } as? T
 

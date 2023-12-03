@@ -15,6 +15,6 @@
  */
 package me.omico.elucidator.psi.utility
 
-import com.intellij.psi.impl.source.PsiFileImpl
+import org.jetbrains.kotlin.com.intellij.psi.impl.source.PsiFileImpl
 
 internal inline fun <reified T> PsiFileImpl.findChildren(): List<T> = findChildrenByClass(T::class.java).toList()

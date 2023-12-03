@@ -17,37 +17,50 @@
 
 package me.omico.elucidator
 
+import me.omico.delusion.kotlin.compiler.embeddable.DelusionKotlinEnvironment
+import me.omico.delusion.kotlin.compiler.embeddable.delusionKotlinEnvironment
+import me.omico.delusion.kotlin.compiler.embeddable.sourceFiles
 import me.omico.elucidator.function.addDslScopeExtensionFunctions
 import me.omico.elucidator.function.custom.addTypeExtensionFunctions
 import me.omico.elucidator.psi.addDslExtensionsFromPsi
-import me.omico.elucidator.psi.createKotlinpoetKtFileMap
 import me.omico.elucidator.psi.extension.addAnnotateExtensionFunctions
-import me.omico.elucidator.psi.extension.annotatableSpecs
+import me.omico.elucidator.psi.utility.findChildren
 import me.omico.elucidator.type.addDslBuilderClass
 import me.omico.elucidator.type.addDslScopeInterface
 import me.omico.elucidator.utility.clearDirectory
+import org.jetbrains.kotlin.psi.KtClass
 import java.io.File
 import kotlin.io.path.Path
 
 fun main(arguments: Array<String>) {
-    val kotlinpoetDirectory = File(arguments[0])
+    val kotlinpoetSourceDirectory = File(arguments[0])
     val outputDirectory = Path(arguments[1])
     outputDirectory.clearDirectory()
-    val ktFileMap = createKotlinpoetKtFileMap(kotlinpoetDirectory)
-    val annotatableSpecs = ktFileMap.annotatableSpecs
-    generatedTypes.forEach { type ->
-        ktFile(GENERATED_PACKAGE_NAME, type.generatedFileName) {
-            addFileComment(GENERATED_HEADER_COMMENT)
-            addDslScopeInterface(type)
-            addDslBuilderClass(type)
-            addDslScopeExtensionFunctions(type)
-            addDslExtensionsFromPsi(ktFileMap)
-            addTypeExtensionFunctions(type)
-            addAnnotateExtensionFunctions(annotatableSpecs, type)
-            writeTo(outputDirectory)
+    delusionKotlinEnvironment {
+        addKotlinSourceRoot(kotlinpoetSourceDirectory)
+        val annotatableSpecFqNames = filterSpecFqNames("com.squareup.kotlinpoet.Annotatable")
+        generatedTypes.forEach { type ->
+            ktFile(GENERATED_PACKAGE_NAME, type.generatedFileName) {
+                addFileComment(GENERATED_HEADER_COMMENT)
+                addDslScopeInterface(type)
+                addDslBuilderClass(type)
+                addDslScopeExtensionFunctions(type)
+                addDslExtensionsFromPsi(this@delusionKotlinEnvironment)
+                addTypeExtensionFunctions(type)
+                addAnnotateExtensionFunctions(annotatableSpecFqNames, type)
+                writeTo(outputDirectory)
+            }
         }
     }
 }
+
+private fun DelusionKotlinEnvironment.filterSpecFqNames(superTypeFullQualifierName: String): Set<String> =
+    sourceFiles
+        .asSequence()
+        .flatMap { ktFile -> ktFile.findChildren<KtClass>() }
+        .filter { ktClass -> ktClass.hasSuperType(superTypeFullQualifierName) && ktClass.name!!.endsWith("Spec") }
+        .mapNotNull { it.fqName?.asString() }
+        .toSortedSet()
 
 internal const val GENERATED_PACKAGE_NAME = "me.omico.elucidator"
 

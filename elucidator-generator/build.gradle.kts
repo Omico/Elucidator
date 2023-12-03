@@ -9,13 +9,13 @@ application {
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
 }
 
 dependencies {
-    implementation(kotlin("compiler"))
-    implementation(libs.dokka.analysis)
-    implementation(libs.dokka.core)
+    implementation(kotlin("compiler-embeddable"))
+    implementation(kotlin("reflect"))
+    implementation(delusion.kotlin.compiler.embeddable)
     implementation(libs.elucidator)
     implementation(libs.kotlinpoet)
 }
@@ -23,7 +23,7 @@ dependencies {
 tasks.run<JavaExec> {
     dependsOn(":spotlessApply")
     args = listOf(
-        projectDir.resolveSibling("kotlinpoet").absolutePath,
+        projectDir.resolveSibling("kotlinpoet/kotlinpoet/src/main").absolutePath,
         projectDir.resolveSibling("elucidator/build/generated/kotlin").absolutePath,
     )
 }
