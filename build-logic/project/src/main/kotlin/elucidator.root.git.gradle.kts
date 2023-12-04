@@ -10,6 +10,8 @@ requireRootProject()
 
 consensus {
     git {
+        // TODO Replace with `isCi` property after Consensus 0.7.0 is released.
+        if (environmentVariables.getOrDefault("CI", false)) return@git
         if (!isGitDirectoryExists) return@git
         hooks {
             preCommit {
