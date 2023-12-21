@@ -24,6 +24,6 @@ tasks.run<JavaExec> {
     dependsOn(":spotlessApply")
     args = listOf(
         projectDir.resolveSibling("kotlinpoet/kotlinpoet/src/commonMain").absolutePath,
-        projectDir.resolveSibling("elucidator/build/generated/kotlin").absolutePath,
+        projectDir.resolveSibling("elucidator/src/generated/kotlin").absolutePath,
     )
 }

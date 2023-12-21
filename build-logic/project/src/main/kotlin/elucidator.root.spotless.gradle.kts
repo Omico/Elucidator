@@ -16,7 +16,10 @@ consensus {
         }
         allprojects {
             kotlin(
-                excludeTargets = setOf("kotlinpoet/**"),
+                excludeTargets = setOf(
+                    "kotlinpoet/**",
+                    "src/generated/kotlin/**",
+                ),
                 licenseHeaderFile = rootProject.file("spotless/copyright.kt"),
             )
             kotlinGradle(
