@@ -65,9 +65,6 @@ public fun KtFileScope.addClass(name: String, block: TypeScope.() -> Unit = {}):
 public fun KtFileScope.addEnum(name: String, block: TypeScope.() -> Unit = {}): Unit =
     enumType(name, block).let(::addType)
 
-public fun KtFileScope.addExpectClass(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    expectClassType(name, block).let(::addType)
-
 public fun KtFileScope.addFunInterface(name: String, block: TypeScope.() -> Unit = {}): Unit =
     funInterfaceType(name, block).let(::addType)
 

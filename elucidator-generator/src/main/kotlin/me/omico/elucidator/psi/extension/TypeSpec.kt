@@ -45,6 +45,11 @@ internal fun KtFileScope.addTypeExtensions(fqName: String, ktFile: KtFile, bindi
             .filterIsInstance<KtNamedFunction>()
             .filter { it.modifierList?.hasModifier(KtTokens.PUBLIC_KEYWORD) == true }
             .filter { it.typeFqName(bindingContext).asString() == "com.squareup.kotlinpoet.TypeSpec.Builder" }
+            .filterNot { function ->
+                function.annotationEntries.any { annotationEntry ->
+                    annotationEntry.typeFqName(bindingContext).asString() == "kotlin.Deprecated"
+                }
+            }
             .map { it.createKtFunctionInfo(bindingContext) }
             .map(::GeneratedTypeSpecExtension)
         generatedTypeSpecExtensions.forEach { generatedTypeSpecExtension ->

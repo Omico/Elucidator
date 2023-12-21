@@ -44,7 +44,6 @@ private val typeNames: List<String> = listOf(
     "annotation",
     "class",
     "enum",
-    "expectClass",
     "funInterface",
     "interface",
     "object",

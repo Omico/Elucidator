@@ -85,15 +85,6 @@ public fun classType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec =
 public fun classType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec =
     TypeSpec.classBuilder(className).applyDslBuilder(block).build()
 
-public fun expectClassType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.expectClassBuilder(name).applyDslBuilder(block).build()
-
-public fun expectClassType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.expectClassBuilder(className).applyDslBuilder(block).build()
-
-public fun valueClassType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.valueClassBuilder(name).applyDslBuilder(block).build()
-
 public fun objectType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec =
     TypeSpec.objectBuilder(name).applyDslBuilder(block).build()
 
@@ -135,15 +126,6 @@ public fun TypeScope.addClass(name: String, block: TypeScope.() -> Unit = {}): U
 
 public fun TypeScope.addClass(className: ClassName, block: TypeScope.() -> Unit = {}): Unit =
     classType(className, block).let(::addType)
-
-public fun TypeScope.addExpectClass(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    expectClassType(name, block).let(::addType)
-
-public fun TypeScope.addExpectClass(className: ClassName, block: TypeScope.() -> Unit = {}): Unit =
-    expectClassType(className, block).let(::addType)
-
-public fun TypeScope.addValueClass(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    valueClassType(name, block).let(::addType)
 
 public fun TypeScope.addObject(name: String, block: TypeScope.() -> Unit = {}): Unit =
     objectType(name, block).let(::addType)
