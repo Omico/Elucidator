@@ -7,7 +7,7 @@ plugins {
 consensus {
     publishing {
         when {
-            environmentVariables.getOrDefault("CI", false) -> publishToNexusRepository()
+            isCi -> publishToNexusRepository()
             else -> publishToLocalRepository("MAVEN_OMICO_LOCAL_URI")
         }
         signing {
