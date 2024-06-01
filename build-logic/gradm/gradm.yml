@@ -3,7 +3,7 @@ versions:
   delusion: "0.8.1"
   elucidator: "0.14.1"
   kotlin: "1.9.22"
-  kotlinpoet: "1.16.0"
+  kotlinpoet: "1.17.0"
   plugins:
     develocity: "3.17.4"
     spotless: "6.25.0"
