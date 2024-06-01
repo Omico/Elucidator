@@ -5,7 +5,7 @@ versions:
   kotlin: "1.9.22"
   kotlinpoet: "1.16.0"
   plugins:
-    gradle.enterprise: "3.16.2"
+    develocity: "3.17.4"
     spotless: "6.25.0"
 
 repositories:
@@ -17,7 +17,7 @@ repositories:
 plugins:
   gradlePluginPortal:
     com.diffplug.spotless: ${versions.plugins.spotless}
-    com.gradle.enterprise: ${versions.plugins.gradle.enterprise}
+    com.gradle.develocity: ${versions.plugins.develocity}
     org.jetbrains.kotlin.jvm: ${versions.kotlin}
   omico:
     me.omico.consensus.api: ${versions.consensus}
