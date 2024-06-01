@@ -1,7 +1,7 @@
 versions:
   consensus: "0.9.0"
-  delusion: "0.6.1"
-  elucidator: "0.14.0"
+  delusion: "0.8.1"
+  elucidator: "0.14.1"
   kotlin: "1.9.22"
   kotlinpoet: "1.16.0"
   plugins:
