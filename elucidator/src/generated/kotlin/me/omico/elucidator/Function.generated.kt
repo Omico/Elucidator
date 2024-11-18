@@ -111,17 +111,13 @@ public fun FunctionScope.endControlFlow() {
   builder.endControlFlow()
 }
 
-public fun constructorFunction(block: FunctionScope.() -> Unit): FunSpec =
-    FunSpec.constructorBuilder().applyDslBuilder(block).build()
+public fun constructorFunction(block: FunctionScope.() -> Unit): FunSpec = FunSpec.constructorBuilder().applyDslBuilder(block).build()
 
-public fun getterFunction(block: FunctionScope.() -> Unit): FunSpec =
-    FunSpec.getterBuilder().applyDslBuilder(block).build()
+public fun getterFunction(block: FunctionScope.() -> Unit): FunSpec = FunSpec.getterBuilder().applyDslBuilder(block).build()
 
-public fun setterFunction(block: FunctionScope.() -> Unit): FunSpec =
-    FunSpec.setterBuilder().applyDslBuilder(block).build()
+public fun setterFunction(block: FunctionScope.() -> Unit): FunSpec = FunSpec.setterBuilder().applyDslBuilder(block).build()
 
-public fun FunSpec.Builder.applyDslBuilder(builder: FunctionScope.() -> Unit): FunSpec.Builder =
-    FunctionBuilder(this).apply(builder).builder
+public fun FunSpec.Builder.applyDslBuilder(builder: FunctionScope.() -> Unit): FunSpec.Builder = FunctionBuilder(this).apply(builder).builder
 
 public fun FunctionScope.clearModifiers(): Unit = builder.modifiers.clear()
 
@@ -138,8 +134,7 @@ public fun FunctionScope.modifiers(modifiers: Iterable<KModifier>) {
 public fun FunctionScope.modifier(modifier: KModifier): Unit = modifiers(modifier)
 
 @Deprecated(
-  message =
-      "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
+  message = "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
   replaceWith = ReplaceWith("annotate(annotationSpec)"),
   level = DeprecationLevel.WARNING,
 )
@@ -148,8 +143,7 @@ public fun FunctionScope.addAnnotation(annotationSpec: AnnotationSpec) {
 }
 
 @Deprecated(
-  message =
-      "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
+  message = "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
   replaceWith = ReplaceWith("annotate(annotationSpecs)"),
   level = DeprecationLevel.WARNING,
 )
@@ -157,8 +151,7 @@ public fun FunctionScope.addAnnotations(annotationSpecs: Iterable<AnnotationSpec
   builder.addAnnotations(annotationSpecs = annotationSpecs)
 }
 
-public inline fun <reified T : Annotation> FunctionScope.annotate(noinline
-    block: AnnotationScope.() -> Unit) {
+public inline fun <reified T : Annotation> FunctionScope.annotate(noinline block: AnnotationScope.() -> Unit) {
   annotation(type = T::class, block = block).let(this::annotate)
 }
 

@@ -19,5 +19,4 @@ internal class CodeBlockBuilder(
   override fun build(): CodeBlock = builder.build()
 }
 
-public fun CodeBlock.Builder.applyDslBuilder(builder: CodeBlockScope.() -> Unit): CodeBlock.Builder
-    = CodeBlockBuilder(this).apply(builder).builder
+public fun CodeBlock.Builder.applyDslBuilder(builder: CodeBlockScope.() -> Unit): CodeBlock.Builder = CodeBlockBuilder(this).apply(builder).builder

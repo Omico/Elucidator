@@ -25,5 +25,4 @@ public fun AnnotationScope.addMember(format: String, vararg args: Any) {
   builder.addMember(format = format, args = args)
 }
 
-public fun AnnotationSpec.Builder.applyDslBuilder(builder: AnnotationScope.() -> Unit):
-    AnnotationSpec.Builder = AnnotationBuilder(this).apply(builder).builder
+public fun AnnotationSpec.Builder.applyDslBuilder(builder: AnnotationScope.() -> Unit): AnnotationSpec.Builder = AnnotationBuilder(this).apply(builder).builder

@@ -44,8 +44,7 @@ public fun ParameterScope.addModifiers(vararg modifiers: KModifier) {
   builder.addModifiers(modifiers = modifiers)
 }
 
-public fun ParameterSpec.Builder.applyDslBuilder(builder: ParameterScope.() -> Unit):
-    ParameterSpec.Builder = ParameterBuilder(this).apply(builder).builder
+public fun ParameterSpec.Builder.applyDslBuilder(builder: ParameterScope.() -> Unit): ParameterSpec.Builder = ParameterBuilder(this).apply(builder).builder
 
 public fun ParameterScope.clearModifiers(): Unit = builder.modifiers.clear()
 
@@ -62,8 +61,7 @@ public fun ParameterScope.modifiers(modifiers: Iterable<KModifier>) {
 public fun ParameterScope.modifier(modifier: KModifier): Unit = modifiers(modifier)
 
 @Deprecated(
-  message =
-      "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
+  message = "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
   replaceWith = ReplaceWith("annotate(annotationSpec)"),
   level = DeprecationLevel.WARNING,
 )
@@ -72,8 +70,7 @@ public fun ParameterScope.addAnnotation(annotationSpec: AnnotationSpec) {
 }
 
 @Deprecated(
-  message =
-      "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
+  message = "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
   replaceWith = ReplaceWith("annotate(annotationSpecs)"),
   level = DeprecationLevel.WARNING,
 )
@@ -81,8 +78,7 @@ public fun ParameterScope.addAnnotations(annotationSpecs: Iterable<AnnotationSpe
   builder.addAnnotations(annotationSpecs = annotationSpecs)
 }
 
-public inline fun <reified T : Annotation> ParameterScope.annotate(noinline
-    block: AnnotationScope.() -> Unit) {
+public inline fun <reified T : Annotation> ParameterScope.annotate(noinline block: AnnotationScope.() -> Unit) {
   annotation(type = T::class, block = block).let(this::annotate)
 }
 

@@ -62,8 +62,7 @@ public fun TypeScope.addModifiers(vararg modifiers: KModifier) {
   builder.addModifiers(modifiers = modifiers)
 }
 
-public fun TypeSpec.Builder.applyDslBuilder(builder: TypeScope.() -> Unit): TypeSpec.Builder =
-    TypeBuilder(this).apply(builder).builder
+public fun TypeSpec.Builder.applyDslBuilder(builder: TypeScope.() -> Unit): TypeSpec.Builder = TypeBuilder(this).apply(builder).builder
 
 public fun TypeScope.clearModifiers(): Unit = builder.modifiers.clear()
 
@@ -79,93 +78,64 @@ public fun TypeScope.modifiers(modifiers: Iterable<KModifier>) {
 
 public fun TypeScope.modifier(modifier: KModifier): Unit = modifiers(modifier)
 
-public fun classType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.classBuilder(name).applyDslBuilder(block).build()
+public fun classType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.classBuilder(name).applyDslBuilder(block).build()
 
-public fun classType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.classBuilder(className).applyDslBuilder(block).build()
+public fun classType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.classBuilder(className).applyDslBuilder(block).build()
 
-public fun objectType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.objectBuilder(name).applyDslBuilder(block).build()
+public fun objectType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.objectBuilder(name).applyDslBuilder(block).build()
 
-public fun objectType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.objectBuilder(className).applyDslBuilder(block).build()
+public fun objectType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.objectBuilder(className).applyDslBuilder(block).build()
 
-public fun companionObjectType(name: String? = null, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.companionObjectBuilder(name).applyDslBuilder(block).build()
+public fun companionObjectType(name: String? = null, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.companionObjectBuilder(name).applyDslBuilder(block).build()
 
-public fun interfaceType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.interfaceBuilder(name).applyDslBuilder(block).build()
+public fun interfaceType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.interfaceBuilder(name).applyDslBuilder(block).build()
 
-public fun interfaceType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.interfaceBuilder(className).applyDslBuilder(block).build()
+public fun interfaceType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.interfaceBuilder(className).applyDslBuilder(block).build()
 
-public fun funInterfaceType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.funInterfaceBuilder(name).applyDslBuilder(block).build()
+public fun funInterfaceType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.funInterfaceBuilder(name).applyDslBuilder(block).build()
 
-public fun funInterfaceType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.funInterfaceBuilder(className).applyDslBuilder(block).build()
+public fun funInterfaceType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.funInterfaceBuilder(className).applyDslBuilder(block).build()
 
-public fun enumType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.enumBuilder(name).applyDslBuilder(block).build()
+public fun enumType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.enumBuilder(name).applyDslBuilder(block).build()
 
-public fun enumType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.enumBuilder(className).applyDslBuilder(block).build()
+public fun enumType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.enumBuilder(className).applyDslBuilder(block).build()
 
-public fun anonymousClassType(block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.anonymousClassBuilder().applyDslBuilder(block).build()
+public fun anonymousClassType(block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.anonymousClassBuilder().applyDslBuilder(block).build()
 
-public fun annotationType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.annotationBuilder(name).applyDslBuilder(block).build()
+public fun annotationType(name: String, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.annotationBuilder(name).applyDslBuilder(block).build()
 
-public fun annotationType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec =
-    TypeSpec.annotationBuilder(className).applyDslBuilder(block).build()
+public fun annotationType(className: ClassName, block: TypeScope.() -> Unit = {}): TypeSpec = TypeSpec.annotationBuilder(className).applyDslBuilder(block).build()
 
-public fun TypeScope.addClass(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    classType(name, block).let(::addType)
+public fun TypeScope.addClass(name: String, block: TypeScope.() -> Unit = {}): Unit = classType(name, block).let(::addType)
 
-public fun TypeScope.addClass(className: ClassName, block: TypeScope.() -> Unit = {}): Unit =
-    classType(className, block).let(::addType)
+public fun TypeScope.addClass(className: ClassName, block: TypeScope.() -> Unit = {}): Unit = classType(className, block).let(::addType)
 
-public fun TypeScope.addObject(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    objectType(name, block).let(::addType)
+public fun TypeScope.addObject(name: String, block: TypeScope.() -> Unit = {}): Unit = objectType(name, block).let(::addType)
 
-public fun TypeScope.addObject(className: ClassName, block: TypeScope.() -> Unit = {}): Unit =
-    objectType(className, block).let(::addType)
+public fun TypeScope.addObject(className: ClassName, block: TypeScope.() -> Unit = {}): Unit = objectType(className, block).let(::addType)
 
-public fun TypeScope.addCompanionObject(name: String? = null, block: TypeScope.() -> Unit = {}):
-    Unit = companionObjectType(name, block).let(::addType)
+public fun TypeScope.addCompanionObject(name: String? = null, block: TypeScope.() -> Unit = {}): Unit = companionObjectType(name, block).let(::addType)
 
-public fun TypeScope.addInterface(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    interfaceType(name, block).let(::addType)
+public fun TypeScope.addInterface(name: String, block: TypeScope.() -> Unit = {}): Unit = interfaceType(name, block).let(::addType)
 
-public fun TypeScope.addInterface(className: ClassName, block: TypeScope.() -> Unit = {}): Unit =
-    interfaceType(className, block).let(::addType)
+public fun TypeScope.addInterface(className: ClassName, block: TypeScope.() -> Unit = {}): Unit = interfaceType(className, block).let(::addType)
 
-public fun TypeScope.addFunInterface(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    funInterfaceType(name, block).let(::addType)
+public fun TypeScope.addFunInterface(name: String, block: TypeScope.() -> Unit = {}): Unit = funInterfaceType(name, block).let(::addType)
 
-public fun TypeScope.addFunInterface(className: ClassName, block: TypeScope.() -> Unit = {}): Unit =
-    funInterfaceType(className, block).let(::addType)
+public fun TypeScope.addFunInterface(className: ClassName, block: TypeScope.() -> Unit = {}): Unit = funInterfaceType(className, block).let(::addType)
 
-public fun TypeScope.addEnum(name: String, block: TypeScope.() -> Unit = {}): Unit = enumType(name,
-    block).let(::addType)
+public fun TypeScope.addEnum(name: String, block: TypeScope.() -> Unit = {}): Unit = enumType(name, block).let(::addType)
 
-public fun TypeScope.addEnum(className: ClassName, block: TypeScope.() -> Unit = {}): Unit =
-    enumType(className, block).let(::addType)
+public fun TypeScope.addEnum(className: ClassName, block: TypeScope.() -> Unit = {}): Unit = enumType(className, block).let(::addType)
 
-public fun TypeScope.addAnonymousClass(block: TypeScope.() -> Unit = {}): Unit =
-    anonymousClassType(block).let(::addType)
+public fun TypeScope.addAnonymousClass(block: TypeScope.() -> Unit = {}): Unit = anonymousClassType(block).let(::addType)
 
-public fun TypeScope.addAnnotation(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    annotationType(name, block).let(::addType)
+public fun TypeScope.addAnnotation(name: String, block: TypeScope.() -> Unit = {}): Unit = annotationType(name, block).let(::addType)
 
-public fun TypeScope.addAnnotation(className: ClassName, block: TypeScope.() -> Unit = {}): Unit =
-    annotationType(className, block).let(::addType)
+public fun TypeScope.addAnnotation(className: ClassName, block: TypeScope.() -> Unit = {}): Unit = annotationType(className, block).let(::addType)
 
 @Deprecated(
-  message =
-      "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
+  message = "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
   replaceWith = ReplaceWith("annotate(annotationSpec)"),
   level = DeprecationLevel.WARNING,
 )
@@ -174,8 +144,7 @@ public fun TypeScope.addAnnotation(annotationSpec: AnnotationSpec) {
 }
 
 @Deprecated(
-  message =
-      "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
+  message = "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
   replaceWith = ReplaceWith("annotate(annotationSpecs)"),
   level = DeprecationLevel.WARNING,
 )
@@ -183,8 +152,7 @@ public fun TypeScope.addAnnotations(annotationSpecs: Iterable<AnnotationSpec>) {
   builder.addAnnotations(annotationSpecs = annotationSpecs)
 }
 
-public inline fun <reified T : Annotation> TypeScope.annotate(noinline
-    block: AnnotationScope.() -> Unit) {
+public inline fun <reified T : Annotation> TypeScope.annotate(noinline block: AnnotationScope.() -> Unit) {
   annotation(type = T::class, block = block).let(this::annotate)
 }
 

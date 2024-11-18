@@ -1,10 +1,10 @@
 versions:
   consensus: "0.15.0"
-  delusion: "0.8.1"
+  delusion: "0.10.0"
   elucidator: "0.14.1"
-  gradle: "8.10.2"
-  kotlin: "1.9.22"
-  kotlinpoet: "1.17.0"
+  gradle: "8.11"
+  kotlin: "2.0.20"
+  kotlinpoet: "2.0.0"
   plugins:
     develocity: "3.18.2"
     spotless: "7.0.0.BETA4"

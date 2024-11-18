@@ -52,8 +52,7 @@ public fun PropertyScope.initializer(codeBlock: CodeBlock?) {
   builder.initializer(codeBlock = codeBlock)
 }
 
-public fun PropertySpec.Builder.applyDslBuilder(builder: PropertyScope.() -> Unit):
-    PropertySpec.Builder = PropertyBuilder(this).apply(builder).builder
+public fun PropertySpec.Builder.applyDslBuilder(builder: PropertyScope.() -> Unit): PropertySpec.Builder = PropertyBuilder(this).apply(builder).builder
 
 public fun PropertyScope.clearModifiers(): Unit = builder.modifiers.clear()
 
@@ -70,8 +69,7 @@ public fun PropertyScope.modifiers(modifiers: Iterable<KModifier>) {
 public fun PropertyScope.modifier(modifier: KModifier): Unit = modifiers(modifier)
 
 @Deprecated(
-  message =
-      "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
+  message = "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
   replaceWith = ReplaceWith("annotate(annotationSpec)"),
   level = DeprecationLevel.WARNING,
 )
@@ -80,8 +78,7 @@ public fun PropertyScope.addAnnotation(annotationSpec: AnnotationSpec) {
 }
 
 @Deprecated(
-  message =
-      "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
+  message = "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
   replaceWith = ReplaceWith("annotate(annotationSpecs)"),
   level = DeprecationLevel.WARNING,
 )
@@ -89,8 +86,7 @@ public fun PropertyScope.addAnnotations(annotationSpecs: Iterable<AnnotationSpec
   builder.addAnnotations(annotationSpecs = annotationSpecs)
 }
 
-public inline fun <reified T : Annotation> PropertyScope.annotate(noinline
-    block: AnnotationScope.() -> Unit) {
+public inline fun <reified T : Annotation> PropertyScope.annotate(noinline block: AnnotationScope.() -> Unit) {
   annotation(type = T::class, block = block).let(this::annotate)
 }
 

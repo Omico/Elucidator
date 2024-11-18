@@ -53,30 +53,22 @@ public fun KtFileScope.indent(indent: String) {
   builder.indent(indent = indent)
 }
 
-public fun FileSpec.Builder.applyDslBuilder(builder: KtFileScope.() -> Unit): FileSpec.Builder =
-    KtFileBuilder(this).apply(builder).builder
+public fun FileSpec.Builder.applyDslBuilder(builder: KtFileScope.() -> Unit): FileSpec.Builder = KtFileBuilder(this).apply(builder).builder
 
-public fun KtFileScope.addAnnotation(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    annotationType(name, block).let(::addType)
+public fun KtFileScope.addAnnotation(name: String, block: TypeScope.() -> Unit = {}): Unit = annotationType(name, block).let(::addType)
 
-public fun KtFileScope.addClass(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    classType(name, block).let(::addType)
+public fun KtFileScope.addClass(name: String, block: TypeScope.() -> Unit = {}): Unit = classType(name, block).let(::addType)
 
-public fun KtFileScope.addEnum(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    enumType(name, block).let(::addType)
+public fun KtFileScope.addEnum(name: String, block: TypeScope.() -> Unit = {}): Unit = enumType(name, block).let(::addType)
 
-public fun KtFileScope.addFunInterface(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    funInterfaceType(name, block).let(::addType)
+public fun KtFileScope.addFunInterface(name: String, block: TypeScope.() -> Unit = {}): Unit = funInterfaceType(name, block).let(::addType)
 
-public fun KtFileScope.addInterface(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    interfaceType(name, block).let(::addType)
+public fun KtFileScope.addInterface(name: String, block: TypeScope.() -> Unit = {}): Unit = interfaceType(name, block).let(::addType)
 
-public fun KtFileScope.addObject(name: String, block: TypeScope.() -> Unit = {}): Unit =
-    objectType(name, block).let(::addType)
+public fun KtFileScope.addObject(name: String, block: TypeScope.() -> Unit = {}): Unit = objectType(name, block).let(::addType)
 
 @Deprecated(
-  message =
-      "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
+  message = "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
   replaceWith = ReplaceWith("annotate(annotationSpec)"),
   level = DeprecationLevel.WARNING,
 )
@@ -85,8 +77,7 @@ public fun KtFileScope.addAnnotation(annotationSpec: AnnotationSpec) {
 }
 
 @Deprecated(
-  message =
-      "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
+  message = "In Elucidator, we use the `addAnnotation` function to create new annotations. Use the `annotate` function instead.",
   replaceWith = ReplaceWith("annotate(annotationSpecs)"),
   level = DeprecationLevel.WARNING,
 )
@@ -94,8 +85,7 @@ public fun KtFileScope.addAnnotations(annotationSpecs: Iterable<AnnotationSpec>)
   builder.addAnnotations(annotationSpecs = annotationSpecs)
 }
 
-public inline fun <reified T : Annotation> KtFileScope.annotate(noinline
-    block: AnnotationScope.() -> Unit) {
+public inline fun <reified T : Annotation> KtFileScope.annotate(noinline block: AnnotationScope.() -> Unit) {
   annotation(type = T::class, block = block).let(this::annotate)
 }
 
