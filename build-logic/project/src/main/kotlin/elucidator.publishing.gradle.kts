@@ -1,4 +1,4 @@
-import me.omico.consensus.dsl.by
+import me.omico.consensus.api.dsl.by
 
 plugins {
     id("me.omico.consensus.publishing")

@@ -1,4 +1,4 @@
-rootProject.name = "elucidator-project"
+rootProject.name = "elucidator-build-logic-project"
 
 pluginManagement {
     includeBuild("../gradm")
