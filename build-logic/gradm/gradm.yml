@@ -1,13 +1,11 @@
 versions:
-  consensus: "0.15.0"
+  consensus: "0.20.2"
   delusion: "0.10.0"
   elucidator: "0.14.1"
-  gradle: "8.11"
   kotlin: "2.0.20"
   kotlinpoet: "2.0.0"
   plugins:
-    develocity: "3.18.2"
-    spotless: "7.0.0.BETA4"
+    develocity: "4.1.1"
 
 repositories:
   mavenLocal:
@@ -17,7 +15,6 @@ repositories:
 
 plugins:
   gradlePluginPortal:
-    com.diffplug.spotless: ${versions.plugins.spotless}
     com.gradle.develocity: ${versions.plugins.develocity}
 
 dependencies:

@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm")
+    id("elucidator.kotlin-jvm")
     id("elucidator.publishing")
 }
 
