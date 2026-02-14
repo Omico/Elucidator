@@ -11,4 +11,6 @@ plugins {
 include(":elucidator")
 include(":elucidator-generator")
 
-includeBuild("kotlinpoet")
+if (System.getProperty("idea.active") == "true") {
+    includeBuild("kotlinpoet")
+}
