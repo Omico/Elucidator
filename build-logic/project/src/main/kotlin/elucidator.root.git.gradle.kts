@@ -16,6 +16,7 @@ consensus {
             }
         }
         operations {
+            if (System.getProperty("o1.enabled") == "true") return@operations
             exec("git", "fetch", "origin", "--tags", workingDir = file("kotlinpoet"))
             checkoutTag(Versions.kotlinpoet, workingDir = file("kotlinpoet"))
         }

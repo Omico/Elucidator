@@ -5,7 +5,7 @@ plugins {
 
 application {
     applicationName = "DslGenerator"
-    mainClass.set("me.omico.elucidator.DslGenerator")
+    mainClass = "me.omico.elucidator.DslGenerator"
 }
 
 kotlin {
@@ -13,17 +13,20 @@ kotlin {
 }
 
 dependencies {
-    implementation(kotlin("compiler-embeddable"))
-    implementation(kotlin("reflect"))
-    implementation(delusion.kotlin.compiler.embeddable)
+    implementation(embeddedKotlin("reflect"))
+}
+
+dependencies {
+    implementation(delusion.kotlin.compiler)
     implementation(libs.elucidator)
     implementation(libs.kotlinpoet)
 }
 
 tasks.run<JavaExec> {
     dependsOn(":spotlessApply")
-    args = listOf(
-        projectDir.resolveSibling("kotlinpoet/kotlinpoet/src/jvmMain").absolutePath,
-        projectDir.resolveSibling("elucidator/src/generated/kotlin").absolutePath,
-    )
+    args =
+        listOf(
+            projectDir.resolveSibling("kotlinpoet/kotlinpoet/src/jvmMain").absolutePath,
+            projectDir.resolveSibling("elucidator/src/generated/kotlin").absolutePath,
+        )
 }

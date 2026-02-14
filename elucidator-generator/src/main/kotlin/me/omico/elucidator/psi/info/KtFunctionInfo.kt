@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Omico
+ * Copyright 2023-2026 Omico
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,10 @@
  */
 package me.omico.elucidator.psi.info
 
-import me.omico.delusion.kotlin.compiler.embeddable.fqName
-import me.omico.delusion.kotlin.compiler.embeddable.resolveType
+import me.omico.delusion.kotlin.compiler.analysis.resolveFqName
+import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.resolve.BindingContext
-import org.jetbrains.kotlin.types.isNullable
+import org.jetbrains.kotlin.psi.KtParameter
 
 internal data class KtFunctionInfo(
     val name: String,
@@ -28,12 +27,12 @@ internal data class KtFunctionInfo(
     val isNullable: Boolean,
 )
 
-internal fun KtNamedFunction.createKtFunctionInfo(bindingContext: BindingContext): KtFunctionInfo {
-    val returnType = resolveType(bindingContext)
-    return KtFunctionInfo(
-        name = name!!,
-        parameters = valueParameters.map { parameter -> parameter.createKtParameterInfo(bindingContext) },
-        returnType = returnType.fqName.asString(),
-        isNullable = returnType.isNullable(),
-    )
-}
+internal fun KtNamedFunction.createKtFunctionInfo(): KtFunctionInfo =
+    analyze(this) {
+        KtFunctionInfo(
+            name = name!!,
+            parameters = valueParameters.map(KtParameter::createKtParameterInfo),
+            returnType = returnType.resolveFqName()!!.asString(),
+            isNullable = returnType.isMarkedNullable,
+        )
+    }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Omico
+ * Copyright 2023-2026 Omico
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,8 @@
 package me.omico.elucidator.psi.extension
 
 import com.squareup.kotlinpoet.TypeSpec
-import me.omico.delusion.kotlin.compiler.embeddable.typeFqName
+import me.omico.delusion.kotlin.compiler.analysis.resolveAnnotationFqName
+import me.omico.delusion.kotlin.compiler.analysis.resolveReturnTypeFqName
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
 import me.omico.elucidator.TypedParameter
@@ -35,23 +36,26 @@ import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtNamedFunction
-import org.jetbrains.kotlin.resolve.BindingContext
 
-internal fun KtFileScope.addTypeExtensions(fqName: String, ktFile: KtFile, bindingContext: BindingContext): Unit =
+internal fun KtFileScope.addTypeExtensions(
+    fqName: String,
+    ktFile: KtFile,
+): Unit =
     addWhile(actualFqName = fqName, expectGeneratedType = GeneratedType.Type) {
         val companionObject = ktFile.requireChild<KtClass>().companionObjects.firstOrNull() ?: return@addWhile
-        val generatedTypeSpecExtensions = companionObject.declarations
-            .asSequence()
-            .filterIsInstance<KtNamedFunction>()
-            .filter { it.modifierList?.hasModifier(KtTokens.PUBLIC_KEYWORD) == true }
-            .filter { it.typeFqName(bindingContext).asString() == "com.squareup.kotlinpoet.TypeSpec.Builder" }
-            .filterNot { function ->
-                function.annotationEntries.any { annotationEntry ->
-                    annotationEntry.typeFqName(bindingContext).asString() == "kotlin.Deprecated"
-                }
-            }
-            .map { it.createKtFunctionInfo(bindingContext) }
-            .map(::GeneratedTypeSpecExtension)
+        val generatedTypeSpecExtensions =
+            companionObject.declarations
+                .asSequence()
+                .filterIsInstance<KtNamedFunction>()
+                .filter { it.modifierList?.hasModifier(KtTokens.PUBLIC_KEYWORD) == true }
+                .filter { function ->
+                    function.resolveReturnTypeFqName()?.asString() == "com.squareup.kotlinpoet.TypeSpec.Builder"
+                }.filterNot { function ->
+                    function.annotationEntries.any { annotationEntry ->
+                        annotationEntry.resolveAnnotationFqName()?.asString() == "kotlin.Deprecated"
+                    }
+                }.map(KtNamedFunction::createKtFunctionInfo)
+                .map(::GeneratedTypeSpecExtension)
         generatedTypeSpecExtensions.forEach { generatedTypeSpecExtension ->
             addFunction(generatedTypeSpecExtension.typeName) {
                 generatedTypeSpecExtension.parameters.forEach(::addParameter)
@@ -78,14 +82,15 @@ private data class GeneratedTypeSpecExtension(
     val parametersString: String = parameters.toParametersString()
     val typeBuilderStatement: String = "TypeSpec.$typeBuilderName($parametersString).applyDslBuilder(block).build()"
     val addTypeFunctionName: String = "add${type.capitalize()}"
-    val addTypeStatement: String = buildString {
-        append(typeName)
-        append("(")
-        if (parameters.isNotEmpty()) append(parametersString).append(", ")
-        append("block")
-        append(")")
-        append(".let(::addType)")
-    }
+    val addTypeStatement: String =
+        buildString {
+            append(typeName)
+            append("(")
+            if (parameters.isNotEmpty()) append(parametersString).append(", ")
+            append("block")
+            append(")")
+            append(".let(::addType)")
+        }
 }
 
 private fun GeneratedTypeSpecExtension(functionInfo: KtFunctionInfo): GeneratedTypeSpecExtension =
@@ -94,4 +99,5 @@ private fun GeneratedTypeSpecExtension(functionInfo: KtFunctionInfo): GeneratedT
         parameters = functionInfo.parameters.toTypedParameters(),
     )
 
-private fun List<TypedParameter>.toParametersString(): String = joinToString(transform = TypedParameter::name)
+private fun List<TypedParameter>.toParametersString(): String =
+    joinToString(transform = TypedParameter::name)

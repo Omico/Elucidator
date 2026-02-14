@@ -1,6 +1,6 @@
 versions:
   consensus: "0.21.0"
-  delusion: "0.11.2"
+  delusion: "0.12.0-SNAPSHOT"
   elucidator: "0.16.0"
   kotlin: "2.2.0"
   kotlinpoet: "2.2.0"
@@ -12,6 +12,8 @@ repositories:
   omico:
   mavenCentral:
   gradlePluginPortal:
+  intellij-dependencies:
+    url: "https://redirector.kotlinlang.org/maven/intellij-dependencies"
 
 plugins:
   gradlePluginPortal:
@@ -37,6 +39,6 @@ dependencies:
         alias: consensusGradlePlugins
         version: ${versions.consensus}
     me.omico.delusion:
-      delusion-kotlin-compiler-embeddable:
-        alias: delusion.kotlin.compiler.embeddable
+      delusion-kotlin-compiler:
+        alias: delusion.kotlin.compiler
         version: ${versions.delusion}

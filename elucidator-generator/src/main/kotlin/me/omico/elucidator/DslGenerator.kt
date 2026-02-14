@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Omico
+ * Copyright 2023-2026 Omico
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,8 @@
 
 package me.omico.elucidator
 
-import me.omico.delusion.kotlin.compiler.embeddable.DelusionKotlinEnvironment
-import me.omico.delusion.kotlin.compiler.embeddable.delusionKotlinEnvironment
-import me.omico.delusion.kotlin.compiler.embeddable.sourceFiles
+import me.omico.delusion.kotlin.compiler.analysis.resolveTypeFqName
+import me.omico.delusion.kotlin.compiler.delusionKotlinEnvironment
 import me.omico.elucidator.function.addDslScopeExtensionFunctions
 import me.omico.elucidator.function.custom.addTypeExtensionFunctions
 import me.omico.elucidator.psi.addDslExtensionsFromPsi
@@ -29,37 +28,45 @@ import me.omico.elucidator.type.addDslBuilderClass
 import me.omico.elucidator.type.addDslScopeInterface
 import me.omico.elucidator.utility.clearDirectory
 import org.jetbrains.kotlin.psi.KtClass
-import java.io.File
+import org.jetbrains.kotlin.psi.KtFile
 import kotlin.io.path.Path
+import kotlin.system.exitProcess
 
 fun main(arguments: Array<String>) {
-    val kotlinpoetSourceDirectory = File(arguments[0])
+    val kotlinpoetSourceDirectory = Path(arguments[0])
     val outputDirectory = Path(arguments[1])
     outputDirectory.clearDirectory()
-    delusionKotlinEnvironment {
-        addKotlinSourceRoot(kotlinpoetSourceDirectory)
-        val annotatableSpecFqNames = filterSpecFqNames("com.squareup.kotlinpoet.Annotatable")
+    delusionKotlinEnvironment(listOf(kotlinpoetSourceDirectory)) {
+        val kotlinFiles = sourceFiles.filterIsInstance<KtFile>()
+        val annotatableSpecFqNames = kotlinFiles.filterSpecFqNames("com.squareup.kotlinpoet.Annotatable")
         generatedTypes.forEach { type ->
             ktFile(GENERATED_PACKAGE_NAME, type.generatedFileName) {
                 addFileComment(GENERATED_HEADER_COMMENT)
                 addDslScopeInterface(type)
                 addDslBuilderClass(type)
                 addDslScopeExtensionFunctions(type)
-                addDslExtensionsFromPsi(this@delusionKotlinEnvironment)
+                addDslExtensionsFromPsi(kotlinFiles)
                 addTypeExtensionFunctions(type)
                 addAnnotateExtensionFunctions(annotatableSpecFqNames, type)
                 writeTo(outputDirectory)
             }
         }
     }
+
+    // TODO https://youtrack.jetbrains.com/issue/KT-73127
+    exitProcess(0)
 }
 
-private fun DelusionKotlinEnvironment.filterSpecFqNames(superTypeFullQualifierName: String): Set<String> =
-    sourceFiles
-        .asSequence()
+private fun List<KtFile>.filterSpecFqNames(superTypeFullQualifierName: String): Set<String> =
+    asSequence()
         .flatMap { ktFile -> ktFile.findChildren<KtClass>() }
-        .filter { ktClass -> ktClass.hasSuperType(superTypeFullQualifierName) && ktClass.name!!.endsWith("Spec") }
-        .mapNotNull { it.fqName?.asString() }
+        .filter { ktClass ->
+            ktClass
+                .getSuperTypeList()
+                ?.entries
+                ?.any { it.typeReference?.resolveTypeFqName()?.asString() == superTypeFullQualifierName } == true &&
+                ktClass.name?.endsWith("Spec") == true
+        }.mapNotNull { it.fqName?.asString() }
         .toSortedSet()
 
 internal const val GENERATED_PACKAGE_NAME = "me.omico.elucidator"

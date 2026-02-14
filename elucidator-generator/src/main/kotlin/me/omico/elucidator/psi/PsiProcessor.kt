@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Omico
+ * Copyright 2023-2026 Omico
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 package me.omico.elucidator.psi
 
 import com.squareup.kotlinpoet.UNIT
-import me.omico.delusion.kotlin.compiler.embeddable.DelusionKotlinEnvironment
-import me.omico.delusion.kotlin.compiler.embeddable.sourceFiles
 import me.omico.elucidator.FunctionScope
 import me.omico.elucidator.GeneratedType
 import me.omico.elucidator.KtFileScope
@@ -28,21 +26,21 @@ import me.omico.elucidator.psi.extension.addTypeExtensions
 import me.omico.elucidator.psi.utility.findChildren
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtFile
 
-internal fun KtFileScope.addDslExtensionsFromPsi(delusionKotlinEnvironment: DelusionKotlinEnvironment) {
-    delusionKotlinEnvironment.sourceFiles.forEach { ktFile ->
-        ktFile.findChildren<KtClass>()
+internal fun KtFileScope.addDslExtensionsFromPsi(kotlinFiles: List<KtFile>): Unit =
+    kotlinFiles.forEach { ktFile ->
+        ktFile
+            .findChildren<KtClass>()
             .mapNotNull(KtClass::getFqName)
             .map(FqName::asString)
             .forEach { fqName ->
                 addTypeExtensions(
                     fqName = fqName,
                     ktFile = ktFile,
-                    bindingContext = delusionKotlinEnvironment.bindingContext,
                 )
             }
     }
-}
 
 internal inline fun KtFileScope.addWhile(
     actualFqName: String,
@@ -57,9 +55,10 @@ internal inline fun KtFileScope.addWhile(
 internal fun FunctionScope.addScopeLambdaBlock(generatedType: GeneratedType): Unit =
     addParameter(
         name = "block",
-        type = lambdaTypeName(
-            receiver = generatedType.generatedScopeClassName,
-            returnType = UNIT,
-        ),
+        type =
+            lambdaTypeName(
+                receiver = generatedType.generatedScopeClassName,
+                returnType = UNIT,
+            ),
         block = { defaultValue("{}") },
     )

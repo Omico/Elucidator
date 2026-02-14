@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Omico
+ * Copyright 2023-2026 Omico
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,10 @@ package me.omico.elucidator.psi.info
 
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
-import me.omico.delusion.kotlin.compiler.embeddable.fqName
-import me.omico.delusion.kotlin.compiler.embeddable.resolveType
+import me.omico.delusion.kotlin.compiler.analysis.resolveFqName
 import me.omico.elucidator.TypedParameter
+import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.psi.KtParameter
-import org.jetbrains.kotlin.resolve.BindingContext
-import org.jetbrains.kotlin.types.isNullable
 
 internal data class KtParameterInfo(
     val name: String,
@@ -32,16 +30,16 @@ internal data class KtParameterInfo(
     val defaultValue: String?,
 )
 
-internal fun KtParameter.createKtParameterInfo(bindingContext: BindingContext): KtParameterInfo {
-    val returnType = resolveType(bindingContext)
-    return KtParameterInfo(
-        name = name!!,
-        type = returnType.fqName.asString(),
-        isVarArg = isVarArg,
-        isNullable = returnType.isNullable(),
-        defaultValue = defaultValue?.text,
-    )
-}
+internal fun KtParameter.createKtParameterInfo(): KtParameterInfo =
+    analyze(this) {
+        KtParameterInfo(
+            name = name!!,
+            type = returnType.resolveFqName()!!.asString(),
+            isVarArg = isVarArg,
+            isNullable = returnType.isNullable,
+            defaultValue = defaultValue?.text,
+        )
+    }
 
 internal fun KtParameterInfo.toTypedParameter(): TypedParameter =
     TypedParameter(
@@ -51,4 +49,5 @@ internal fun KtParameterInfo.toTypedParameter(): TypedParameter =
         defaultValue = defaultValue?.let(CodeBlock::of),
     )
 
-internal fun List<KtParameterInfo>.toTypedParameters(): List<TypedParameter> = map(KtParameterInfo::toTypedParameter)
+internal fun List<KtParameterInfo>.toTypedParameters(): List<TypedParameter> =
+    map(KtParameterInfo::toTypedParameter)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Omico
+ * Copyright 2023-2026 Omico
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package me.omico.elucidator.psi.utility
 
-import org.jetbrains.kotlin.com.intellij.psi.impl.source.PsiFileImpl
+import com.intellij.psi.impl.source.PsiFileImpl
 
-internal inline fun <reified T> PsiFileImpl.findChildren(): List<T> = findChildrenByClass(T::class.java).toList()
+internal inline fun <reified T> PsiFileImpl.findChildren(): List<T> =
+    findChildrenByClass(T::class.java).toList()

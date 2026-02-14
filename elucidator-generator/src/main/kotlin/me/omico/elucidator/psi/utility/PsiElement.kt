@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Omico
+ * Copyright 2023-2026 Omico
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,10 @@
  */
 package me.omico.elucidator.psi.utility
 
-import org.jetbrains.kotlin.com.intellij.psi.PsiElement
+import com.intellij.psi.PsiElement
 
-internal inline fun <reified T> PsiElement.findChild(): T? = children.find { it is T } as? T
+internal inline fun <reified T> PsiElement.findChild(): T? =
+    children.find { it is T } as? T
 
 internal inline fun <reified T> PsiElement.requireChild(): T =
     requireNotNull(findChild()) { "${this::class.simpleName} does not contain child of type ${T::class.simpleName}." }

@@ -24,12 +24,13 @@ dependencies {
 tasks {
     listOf(compileKotlin, sourcesJar).forEach { task ->
         task {
-            dependsOn(":elucidator:clean", ":elucidator-generator:run")
+            dependsOn(project.tasks.clean)
+            if (gradle.parent == null) dependsOn(project(":elucidator-generator").tasks.named("run"))
         }
     }
     listOf(publish, publishToMavenLocal).forEach { task ->
         task {
-            dependsOn(":spotlessApply", ":elucidator:test")
+            dependsOn(rootProject.tasks.spotlessApply, project.tasks.test)
         }
     }
 }
