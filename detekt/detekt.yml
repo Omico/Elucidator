@@ -4,14 +4,11 @@ complexity:
   TooManyFunctions:
     active: false
 
-naming:
-  MatchingDeclarationName:
-    active: false
-
 style:
   MagicNumber:
-    active: false
-  MaxLineLength:
-    active: false
+    ignoreLocalVariableDeclaration: true
   ReturnCount:
     active: false
+  MaxLineLength:
+    excludes:
+      - '**/src/generated/kotlin/**'
