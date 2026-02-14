@@ -17,7 +17,7 @@ dependencies {
 
 dependencies {
     testImplementation(kotlin("stdlib"))
-    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
     testImplementation(libs.kotlinpoet)
 }
 

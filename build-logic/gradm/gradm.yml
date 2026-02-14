@@ -1,11 +1,11 @@
 versions:
   consensus: "0.20.2"
   delusion: "0.11.2"
-  elucidator: "0.15.0"
+  elucidator: "0.16.0"
   kotlin: "2.2.0"
   kotlinpoet: "2.2.0"
   plugins:
-    develocity: "4.1.1"
+    develocity: "4.3.2"
 
 repositories:
   mavenLocal:
